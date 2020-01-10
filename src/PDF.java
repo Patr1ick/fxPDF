@@ -57,6 +57,10 @@ public class PDF {
         return f.getAbsolutePath();
     }
 
+    public float getVersion(){
+        return document.getVersion();
+    }
+
     public int getNumberOfPages(){
         return document.getNumberOfPages();
     }

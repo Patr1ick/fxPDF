@@ -31,8 +31,8 @@ public class Viewer extends Pane {
     private Button nextPageLeft;
     private Button nextPageRight;
 
-    private boolean disabledZoomButtons = false;
-    private boolean controlPressed = false;
+    private boolean disableZoomButtons = false;
+    private boolean disableNextPageButtons = false;
 
     private final float MAXSCALE = 15.0f;
 
@@ -76,42 +76,42 @@ public class Viewer extends Pane {
 
 
         this.nextPageLeft = new Button();
-        this.nextPageLeft.setPrefSize(50d,50d);
+        this.nextPageLeft.setPrefSize(50d, 50d);
         this.nextPageLeft.setVisible(false);
         this.nextPageLeft.setLayoutX(25d);
-        this.nextPageLeft.setLayoutY((this.currentPage.getHeight() / 2d ) - 25d);
+        this.nextPageLeft.setLayoutY((this.currentPage.getHeight() / 2d) - 25d);
         this.nextPageLeft.setGraphic(new ImageView(this.img_first_page));
         this.nextPageLeft.setOnAction(event -> {
-            if (this.currentPageNumber == this.pdf.getDocument().getNumberOfPages()){
+            if (this.currentPageNumber == this.pdf.getDocument().getNumberOfPages()) {
                 this.nextPageRight.setDisable(false);
                 this.nextPageRight.setGraphic(new ImageView(this.img_right));
             }
-            if (this.currentPageNumber == 1){
+            if (this.currentPageNumber == 1) {
                 leftPage();
                 this.nextPageLeft.setGraphic(new ImageView(this.img_first_page));
                 this.nextPageLeft.setDisable(true);
-            }else if(this.currentPageNumber > 0){
+            } else if (this.currentPageNumber > 0) {
                 leftPage();
                 this.nextPageLeft.setGraphic(new ImageView(this.img_left));
             }
         });
 
         this.nextPageRight = new Button();
-        this.nextPageRight.setPrefSize(50d,50d);
+        this.nextPageRight.setPrefSize(50d, 50d);
         this.nextPageRight.setVisible(false);
         this.nextPageRight.setGraphic(new ImageView(this.img_right));
         this.nextPageRight.setLayoutX(this.currentPage.getWidth() - 75d);
-        this.nextPageRight.setLayoutY((this.currentPage.getHeight() / 2d ) - 25d);
+        this.nextPageRight.setLayoutY((this.currentPage.getHeight() / 2d) - 25d);
         this.nextPageRight.setOnAction(event -> {
-            if (this.currentPageNumber == 0){
+            if (this.currentPageNumber == 0) {
                 this.nextPageLeft.setGraphic(new ImageView(this.img_left));
                 this.nextPageLeft.setDisable(false);
             }
-            if (this.currentPageNumber == this.pdf.getNumberOfPages() - 1){
+            if (this.currentPageNumber == this.pdf.getNumberOfPages() - 1) {
                 rightPage();
                 this.nextPageRight.setGraphic(new ImageView(this.img_last_page));
                 this.nextPageRight.setDisable(true);
-            }else if(this.currentPageNumber < this.pdf.getNumberOfPages()){
+            } else if (this.currentPageNumber < this.pdf.getNumberOfPages()) {
                 rightPage();
                 this.nextPageRight.setGraphic(new ImageView(this.img_right));
             }
@@ -152,20 +152,22 @@ public class Viewer extends Pane {
 
         //Events
         this.setOnMouseEntered(event -> {
-            if (!disabledZoomButtons) {
+            if (!disableZoomButtons) {
                 this.zoomIn.setVisible(true);
                 this.zoomOut.setVisible(true);
-
+            }
+            if (!disableNextPageButtons){
                 this.nextPageRight.setVisible(true);
                 this.nextPageLeft.setVisible(true);
             }
         });
 
         this.setOnMouseExited(event -> {
-            if (!disabledZoomButtons) {
+            if (!disableZoomButtons) {
                 this.zoomIn.setVisible(false);
                 this.zoomOut.setVisible(false);
-
+            }
+            if (!disableNextPageButtons){
                 this.nextPageRight.setVisible(false);
                 this.nextPageLeft.setVisible(false);
             }
@@ -182,16 +184,14 @@ public class Viewer extends Pane {
             this.scrollPane.setPrefHeight(newValue.doubleValue());
             this.stackPane.setPrefHeight(newValue.doubleValue());
             this.zoomTool.setLayoutY(newValue.doubleValue() - 150d);
-            this.nextPageLeft.setLayoutY((newValue.doubleValue() / 2d ) - 25d);
-            this.nextPageRight.setLayoutY((newValue.doubleValue() / 2d ) - 25d);
+            this.nextPageLeft.setLayoutY((newValue.doubleValue() / 2d) - 25d);
+            this.nextPageRight.setLayoutY((newValue.doubleValue() / 2d) - 25d);
         });
 
         hotkeyZoomIn = new KeyCodeCombination(KeyCode.ADD, KeyCombination.CONTROL_DOWN);
         hotkeyZoomOut = new KeyCodeCombination(KeyCode.SUBTRACT, KeyCombination.CONTROL_DOWN);
 
         this.setOnKeyPressed(event -> {
-            //if (event.getCode() == KeyCode.ALT)
-            //    this.controlPressed = true;
 
             if (hotkeyZoomIn.match(event)) {
                 if (scaleFactor <= MAXSCALE)
@@ -204,11 +204,6 @@ public class Viewer extends Pane {
             }
 
             updatePage();
-        });
-
-        this.setOnKeyReleased(event -> {
-            //if (event.getCode() == KeyCode.ALT)
-            //   this.controlPressed = false;
         });
 
         /*
@@ -234,6 +229,12 @@ public class Viewer extends Pane {
         this.imageView.setImage(this.currentPage);
     }
 
+    public void loadPage(int pageNumber) {
+        if (pageNumber >= 0 && pageNumber <= this.pdf.getNumberOfPages())
+            this.currentPageNumber = pageNumber;
+        updatePage();
+    }
+
     public void leftPage() {
         if (currentPageNumber >= 0 && currentPageNumber <= pdf.getNumberOfPages()) {
             currentPageNumber -= 1;
@@ -254,23 +255,28 @@ public class Viewer extends Pane {
         return currentPageNumber;
     }
 
-    public void setCurrentPageNumber(int currentPageNumber) {
-        this.currentPageNumber = currentPageNumber;
-    }
-
     public float getScaleFactor() {
         return scaleFactor;
     }
 
     public void setScaleFactor(float scaleFactor) {
         this.scaleFactor = scaleFactor;
+        updatePage();
     }
 
-    public boolean isDisabledZoomButtons() {
-        return disabledZoomButtons;
+    public boolean isDisableZoomButtons() {
+        return disableZoomButtons;
     }
 
-    public void setDisabledZoomButtons(boolean disabledZoomButtons) {
-        this.disabledZoomButtons = disabledZoomButtons;
+    public void setDisableZoomButtons(boolean disableZoomButtons) {
+        this.disableZoomButtons = disableZoomButtons;
+    }
+
+    public boolean isDisableNextPageButtons() {
+        return disableNextPageButtons;
+    }
+
+    public void setDisableNextPageButtons(boolean disableNextPageButtons) {
+        this.disableNextPageButtons = disableNextPageButtons;
     }
 }

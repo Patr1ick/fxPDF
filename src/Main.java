@@ -2,8 +2,6 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-
-import javax.swing.text.View;
 import java.io.File;
 
 public class Main extends Application {
@@ -15,7 +13,6 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-
         FileChooser f = new FileChooser();
         f.getExtensionFilters().add(new FileChooser.ExtensionFilter("PDF", "*.pdf"));
 
