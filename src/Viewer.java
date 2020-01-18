@@ -1,3 +1,4 @@
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -13,17 +14,18 @@ import javafx.scene.layout.VBox;
 
 public class Viewer extends Pane {
 
-    private PDF pdf;
-
-    private Image currentPage;
-    private ImageView imageView;
-
-    private int currentPageNumber = 0;
-    private float scaleFactor = 1.0f;
-
+    //Panes
     private ScrollPane scrollPane;
     private StackPane stackPane;
     private VBox zoomTool;
+
+    //ViewerType LIST:
+    private VBox listVBox;
+    private ImageView[] pdfList;
+
+    //Nodes
+    private Image currentPage;
+    private ImageView imageView;
 
     private Button zoomIn;
     private Button zoomOut;
@@ -31,20 +33,33 @@ public class Viewer extends Pane {
     private Button nextPageLeft;
     private Button nextPageRight;
 
+    //PDF
+    private PDF pdf;
+
+    //Other Variables
     private boolean disableZoomButtons = false;
     private boolean disableNextPageButtons = false;
 
+    private final float MINSCALE = 0.5f;
     private final float MAXSCALE = 15.0f;
 
+    private int currentPageNumber = 0;
+    private float scaleFactor = 1.0f;
+
+    //KeyCodeCombination (HotKeys)
     private KeyCodeCombination hotkeyZoomIn;
     private KeyCodeCombination hotkeyZoomOut;
 
+    //Images
     private Image img_add;
     private Image img_remove;
     private Image img_left;
     private Image img_right;
     private Image img_last_page;
     private Image img_first_page;
+
+    //ViewerType
+    private ViewerType viewerType = ViewerType.IMAGE;
 
     public Viewer(PDF pdf) {
         this.pdf = pdf;
@@ -53,6 +68,18 @@ public class Viewer extends Pane {
         this.currentPage = this.pdf.getPageImage(this.currentPageNumber, this.scaleFactor);
         this.imageView = new ImageView(this.currentPage);
 
+        //ViewerType List Display
+        this.listVBox = new VBox();
+        this.listVBox.setAlignment(Pos.CENTER);
+        this.listVBox.setSpacing(5d);
+
+        this.pdfList = new ImageView[this.pdf.getNumberOfPages()];
+        for (int i = 0; i < this.pdfList.length; i++) {
+            this.pdfList[i] = new ImageView(this.pdf.getPageImage(i, this.scaleFactor));
+            this.listVBox.getChildren().add(this.pdfList[i]);
+        }
+
+        //Panes
         this.stackPane = new StackPane();
         this.stackPane.getChildren().add(this.imageView);
         StackPane.setAlignment(this.imageView, Pos.CENTER);
@@ -62,6 +89,7 @@ public class Viewer extends Pane {
         this.scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         this.scrollPane.setPannable(true);
         this.scrollPane.setContent(this.stackPane);
+
 
         //CSS
         this.getStylesheets().add("resource/css/style.css");
@@ -74,13 +102,15 @@ public class Viewer extends Pane {
         this.img_first_page = new Image("resource/img/baseline_first_page_black_48dp.png", 30, 30, true, false);
         this.img_last_page = new Image("resource/img/baseline_last_page_black_48dp.png", 30, 30, true, false);
 
-
+        //Nodes
         this.nextPageLeft = new Button();
         this.nextPageLeft.setPrefSize(50d, 50d);
         this.nextPageLeft.setVisible(false);
         this.nextPageLeft.setLayoutX(25d);
+        this.nextPageLeft.getStyleClass().add("buttons");
         this.nextPageLeft.setLayoutY((this.currentPage.getHeight() / 2d) - 25d);
         this.nextPageLeft.setGraphic(new ImageView(this.img_first_page));
+        this.nextPageLeft.setDisable(true);
         this.nextPageLeft.setOnAction(event -> {
             if (this.currentPageNumber == this.pdf.getDocument().getNumberOfPages()) {
                 this.nextPageRight.setDisable(false);
@@ -99,21 +129,27 @@ public class Viewer extends Pane {
         this.nextPageRight = new Button();
         this.nextPageRight.setPrefSize(50d, 50d);
         this.nextPageRight.setVisible(false);
-        this.nextPageRight.setGraphic(new ImageView(this.img_right));
+        this.nextPageRight.getStyleClass().add("buttons");
+        if (this.currentPageNumber == this.pdf.getNumberOfPages() - 1) { // 1 page pdf: numberofpages: 1 & currentpagenumber 0
+            this.nextPageRight.setGraphic(new ImageView(this.img_last_page));
+            this.nextPageRight.setDisable(true);
+        } else {
+            this.nextPageRight.setGraphic(new ImageView(this.img_right));
+        }
         this.nextPageRight.setLayoutX(this.currentPage.getWidth() - 75d);
         this.nextPageRight.setLayoutY((this.currentPage.getHeight() / 2d) - 25d);
         this.nextPageRight.setOnAction(event -> {
             if (this.currentPageNumber == 0) {
+                rightPage();
                 this.nextPageLeft.setGraphic(new ImageView(this.img_left));
                 this.nextPageLeft.setDisable(false);
-            }
-            if (this.currentPageNumber == this.pdf.getNumberOfPages() - 1) {
-                rightPage();
-                this.nextPageRight.setGraphic(new ImageView(this.img_last_page));
-                this.nextPageRight.setDisable(true);
             } else if (this.currentPageNumber < this.pdf.getNumberOfPages()) {
                 rightPage();
                 this.nextPageRight.setGraphic(new ImageView(this.img_right));
+                if (this.currentPageNumber == this.pdf.getNumberOfPages() - 1) {
+                    this.nextPageRight.setGraphic(new ImageView(this.img_last_page));
+                    this.nextPageRight.setDisable(true);
+                }
             }
 
         });
@@ -122,24 +158,29 @@ public class Viewer extends Pane {
         this.zoomIn.setPrefSize(50d, 50d);
         this.zoomIn.setVisible(false);
         this.zoomIn.setGraphic(new ImageView(img_add));
-        this.zoomIn.getStyleClass().add("zoom");
+        this.zoomIn.getStyleClass().add("buttons");
         this.zoomIn.setOnAction(event -> {
             if (this.scaleFactor <= this.MAXSCALE) {
-                this.scaleFactor += 1.0f;
+                if (this.scaleFactor < 0.0f) {
+                    this.scaleFactor = 0.0f;
+                } else
+                    this.scaleFactor += 1.0f;
             }
-            updatePage();
+            updateViewer();
         });
 
         this.zoomOut = new Button();
         this.zoomOut.setPrefSize(50d, 50d);
         this.zoomOut.setVisible(false);
         this.zoomOut.setGraphic(new ImageView(img_remove));
-        this.zoomOut.getStyleClass().add("zoom");
+        this.zoomOut.getStyleClass().add("buttons");
         this.zoomOut.setOnAction(event -> {
-            if (this.scaleFactor > 1) {
-                this.scaleFactor -= 1.0f;
+            if (scaleFactor > 1.0f) {
+                scaleFactor -= 1.0f;
+            } else if (scaleFactor > MINSCALE) {
+                scaleFactor -= 0.25f;
             }
-            updatePage();
+            updateViewer();
         });
 
         this.zoomTool = new VBox();
@@ -156,7 +197,7 @@ public class Viewer extends Pane {
                 this.zoomIn.setVisible(true);
                 this.zoomOut.setVisible(true);
             }
-            if (!disableNextPageButtons){
+            if (!disableNextPageButtons) {
                 this.nextPageRight.setVisible(true);
                 this.nextPageLeft.setVisible(true);
             }
@@ -167,7 +208,7 @@ public class Viewer extends Pane {
                 this.zoomIn.setVisible(false);
                 this.zoomOut.setVisible(false);
             }
-            if (!disableNextPageButtons){
+            if (!disableNextPageButtons) {
                 this.nextPageRight.setVisible(false);
                 this.nextPageLeft.setVisible(false);
             }
@@ -199,11 +240,15 @@ public class Viewer extends Pane {
             }
 
             if (hotkeyZoomOut.match(event)) {
-                if (scaleFactor > 1.0f)
+                if (scaleFactor > 1.0f) {
                     scaleFactor -= 1.0f;
+                } else if (scaleFactor > MINSCALE) {
+                    scaleFactor -= 0.25f;
+                }
+
             }
 
-            updatePage();
+            updateViewer();
         });
 
         /*
@@ -224,30 +269,91 @@ public class Viewer extends Pane {
 
     }
 
-    public void updatePage() {
-        this.currentPage = this.pdf.getPageImage(this.currentPageNumber, this.scaleFactor);
-        this.imageView.setImage(this.currentPage);
+    public void setViewerType(ViewerType viewerType) {
+        if (viewerType == ViewerType.IMAGE) {
+            this.getChildren().addAll(this.nextPageRight, this.nextPageLeft, this.zoomTool);
+            this.stackPane.getChildren().remove(this.listVBox);
+            this.stackPane.getChildren().add(this.imageView);
+        } else if (viewerType == ViewerType.LIST) {
+            this.getChildren().removeAll(this.nextPageRight, this.nextPageLeft, this.zoomTool);
+            this.stackPane.getChildren().remove(this.imageView);
+            this.stackPane.getChildren().add(this.listVBox);
+        }
+    }
+
+    public void loadPDF(PDF pdf) {
+        this.pdf = pdf;
+        this.currentPageNumber = 0;
+        updateViewer();
+        System.out.println("Max Page Numbers: " + this.pdf.getNumberOfPages());
+    }
+
+    public void updateViewer() {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                if (viewerType == ViewerType.IMAGE) {
+                    //Refresh page
+                    currentPage = pdf.getPageImage(currentPageNumber, scaleFactor);
+                    imageView.setImage(currentPage);
+                    //Update buttons
+                    if (currentPageNumber == 0) { // First Page
+                        nextPageLeft.setDisable(true);
+                        nextPageLeft.setGraphic(new ImageView(img_first_page));
+                        if (currentPageNumber == pdf.getNumberOfPages() - 1) {
+                            nextPageRight.setDisable(true);
+                            nextPageRight.setGraphic(new ImageView(img_last_page));
+                        } else {
+                            nextPageRight.setDisable(false);
+                            nextPageRight.setGraphic(new ImageView(img_right));
+                        }
+                    } else if (currentPageNumber == pdf.getNumberOfPages() - 1) { // Last Page
+                        nextPageLeft.setDisable(false);
+                        nextPageLeft.setGraphic(new ImageView(img_left));
+                        nextPageRight.setDisable(true);
+                        nextPageRight.setGraphic(new ImageView(img_last_page));
+                    } else {
+                        nextPageRight.setDisable(false);
+                        nextPageRight.setGraphic(new ImageView(img_right));
+                        nextPageLeft.setDisable(false);
+                        nextPageLeft.setGraphic(new ImageView(img_left));
+
+                    }
+                } else if (viewerType == ViewerType.LIST) {
+                    listVBox.getChildren().remove(pdfList);
+                    for (int i = 0; i < pdfList.length; i++) {
+                        pdfList[i] = new ImageView(pdf.getPageImage(i, scaleFactor));
+                        listVBox.getChildren().add(pdfList[i]);
+                    }
+                }
+            }
+        });
+
     }
 
     public void loadPage(int pageNumber) {
-        if (pageNumber >= 0 && pageNumber <= this.pdf.getNumberOfPages())
-            this.currentPageNumber = pageNumber;
-        updatePage();
+        if (this.viewerType == ViewerType.IMAGE) {
+            if (pageNumber >= 0 && pageNumber <= this.pdf.getNumberOfPages())
+                this.currentPageNumber = pageNumber;
+            updateViewer();
+        } else if (this.viewerType == ViewerType.LIST) {
+            this.scrollPane.setVvalue((1d / this.pdf.getNumberOfPages() * pageNumber)); // currently not working
+        }
+
     }
 
     public void leftPage() {
         if (currentPageNumber >= 0 && currentPageNumber <= pdf.getNumberOfPages()) {
             currentPageNumber -= 1;
         }
-        updatePage();
+        updateViewer();
     }
 
     public void rightPage() {
-
         if (currentPageNumber >= 0 && currentPageNumber < pdf.getNumberOfPages()) {
             currentPageNumber += 1;
         }
-        updatePage();
+        updateViewer();
     }
 
 
@@ -261,7 +367,7 @@ public class Viewer extends Pane {
 
     public void setScaleFactor(float scaleFactor) {
         this.scaleFactor = scaleFactor;
-        updatePage();
+        updateViewer();
     }
 
     public boolean isDisableZoomButtons() {
@@ -279,4 +385,12 @@ public class Viewer extends Pane {
     public void setDisableNextPageButtons(boolean disableNextPageButtons) {
         this.disableNextPageButtons = disableNextPageButtons;
     }
+
+    public PDF getPdf() {
+        return pdf;
+    }
+}
+
+enum ViewerType {
+    LIST, IMAGE
 }

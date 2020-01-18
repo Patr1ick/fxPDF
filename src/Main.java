@@ -2,11 +2,12 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+
 import java.io.File;
 
 public class Main extends Application {
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         launch(args);
     }
 
@@ -18,12 +19,17 @@ public class Main extends Application {
 
         File selected = f.showOpenDialog(primaryStage);
         PDF pdf = new PDF(selected);
-        Viewer v;
-        if (selected != null){
-            v = new Viewer(pdf);
+        PDFViewer v;
+        if (selected != null) {
+            v = new PDFViewer(pdf);
+
             Scene s = new Scene(v);
             primaryStage.setScene(s);
-        }
-        primaryStage.show();
+            primaryStage.setMaximized(true);
+            primaryStage.setTitle("fxPDF");
+            primaryStage.show();
+        } else
+            System.exit(0);
+
     }
 }

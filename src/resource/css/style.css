@@ -1,14 +1,57 @@
-
-
-.zoom{
+/* VIEWER */
+.buttons{
     -fx-background-color: #c7c7c7;
     -fx-background-radius: 30;
-    fx-font-size: 15;
     -fx-border-color: #bababa;
     -fx-border-radius: 30;
 
 }
 
-.zoom:hover{
+.buttons:hover{
     -fx-background-color: #bababa;
+}
+
+/* PDFVIEWER */
+.name{
+    -fx-font-size: 15;
+    -fx-font-weight: bold;
+    -fx-text-fill: #30343b;
+}
+
+/* PagePreview */
+.previewButtons{
+    -fx-border-radius: 2;
+    -fx-border-color: #bababa;
+    -fx-background-color: transparent;
+}
+
+.previewButtons:hover{
+    -fx-border-color: #bababa;
+}
+
+/* ALL */
+/* ScrollBar*/
+.scroll-bar{
+    -fx-background-color: transparent;
+}
+
+.scroll-bar .track{
+    -fx-background-radius: 0;
+    -fx-border-radius: 0;
+}
+
+.scroll-bar .thumb{
+    -fx-background-color: #c7c7c7;
+    -fx-background-radius: 0;
+    -fx-border-radius: 0;
+}
+
+.scroll-bar:hover .thumb{
+    -fx-background-color: #bababa;
+}
+
+.scroll-bar .increment-button ,
+.scroll-bar .decrement-button {
+    -fx-background-color:transparent;
+    -fx-border-color:derive(gray,80%);
 }
