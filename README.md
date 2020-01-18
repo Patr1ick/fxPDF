@@ -1,5 +1,5 @@
 # fxPDF
-This is a PDF viewer written in JavaFX. I used icons from [MaterialDesign](https://material.io/resources/icons/) 
+This is a PDF viewer libary written in JavaFX. I used icons from [MaterialDesign](https://material.io/resources/icons/) 
 and the [Apache PDFBox®](https://pdfbox.apache.org/) library.
 ## How does it work?
 The PDFRenderer render a page as an Image and this is displayed in an ImageView. One problem that results from this is that you cannot copy the text, for example.
