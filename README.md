@@ -34,9 +34,18 @@ v.getScaleFactor(); Returns the scale factor (float)
 The ViewType LIST displays the pages of the PDF below each other in a ScrollPane.
 ##### Image
 The ViewType IMAGE displays each page of the PDF individually. You can navigate using buttons.
-
+## Hotkeys
+### PDFViewer
+- `Control + O` Open a FileDialog to load a new PDF.
+- `Control + Q` Close the Window
+- `F11` Toggle Fullscreen
+### Viewer
+- `Control + Left` Left Page
+- `Control + Right` Right Page
+- `Control + +` Zoom In
+- `Control + -` Zoom Out
 ## Upcoming Features / Not implemented
 - When viewerType is LIST:
   - Zooming
   - loadPage: scroll to the given pageNumber
--
+- More Function for the class `PDF`
