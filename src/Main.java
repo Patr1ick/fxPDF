@@ -18,10 +18,10 @@ public class Main extends Application {
         f.getExtensionFilters().add(new FileChooser.ExtensionFilter("PDF", "*.pdf"));
 
         File selected = f.showOpenDialog(primaryStage);
-        PDF pdf = new PDF(selected);
-        PDFViewer v;
         if (selected != null) {
-            v = new PDFViewer(pdf);
+            PDF pdf = new PDF(selected);
+            PDFViewer v;
+            v = new PDFViewer(primaryStage, pdf);
 
             Scene s = new Scene(v);
             primaryStage.setScene(s);

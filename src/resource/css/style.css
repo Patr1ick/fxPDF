@@ -55,3 +55,8 @@
     -fx-background-color:transparent;
     -fx-border-color:derive(gray,80%);
 }
+
+.scroll-bar:hover .increment-button ,
+.scroll-bar:hover .decrement-button {
+    -fx-background-color:derive(gray,100%);
+}
