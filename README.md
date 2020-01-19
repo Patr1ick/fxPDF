@@ -38,6 +38,10 @@ viewer.addEventHandler(CustomEvent.CUSTOM_EVENT_TYPE, new PageSwitchEventHandler
 });
 ```
 ![Screenshot of example](https://github.com/Patr1ick/fxPDF/blob/master/viewer.png "Viewer")
+- blue: buttons to navigate through the PDF
+- green: buttons to zoom in/out
+- red: the `ImageView` to show the current page 
+
 #### ViewerType LIST and IMAGE
 ##### LIST
 The ViewType LIST displays the pages of the PDF below each other in a ScrollPane.
