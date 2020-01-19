@@ -4,31 +4,77 @@ and the [Apache PDFBox®](https://pdfbox.apache.org/) library.
 ## How does it work?
 The PDFRenderer render a page as an Image and this is displayed in an ImageView. One problem that results from this is that you cannot copy the text, for example.
 ## Integrate it into your own projects
-You can use the viewer with more options (`PDFViewer`) or the smaller version, where you can disable the controls (`Viewer`).
+You can use the more advanced viewer (`PDFViewer`) or the smaller or cleaner version, where you have more custom control (`Viewer`).
 ### PDFViewer
 ```java
 PDF pdf = new PDF(file); // Create a PDF 
 PDFViewer v = new PDFViewer(pdf); // The PDFViewer object
 root.getChildren().add(v); // Add the Viewer to the root-Pane
 ```
+#### Screenshot of PDFViewer
 ![Screenshot of example](https://github.com/Patr1ick/fxPDF/blob/master/pdfviewer.png "PDFViewer")
 ### Viewer
+#### ViewerType LIST and IMAGE
+There are two types of viewer to display the PDF differently.
+##### LIST
+The ViewType LIST displays the pages of the PDF below each other in a ScrollPane.
+##### Image
+The ViewType IMAGE displays each page of the PDF individually. You can navigate using buttons.
 ```java
 PDF pdf = new PDF(file); // Create a PDF 
 Viewer v = new Viewer(pdf); // The Viewer object
-v.setDisableZoomButtons(true); // By default true (Marked green in the picture below)
-v.setDisableNextPageButtons(true); //By default true (Marked blue in the picture below)
-v.setViewerType(ViewerType.LIST); // Standard is IMAGE (For more information see below)
 root.getChildren().add(v); // Add the Viewer to the root-Pane
 ```
+#### Methods
+<table>
+  <tr>
+    <th>Method</th>
+    <th>ViewerType IMAGE</th>
+    <th>ViewerType LIST</th>
+  </tr>
+  <tr>
+    <td><code>v.setDisableZoomButtons(true);</code></td>
+    <td colspan=2>true - disable the zoom buttons (default: false)</td>
+  </tr>
+  <tr>
+    <td><code>v.setDisableNextPageButtons(true);</code></td>
+    <td colspan=2 >true - disable the buttons to navigate through the PDF(default false)</td>
+  </tr> 
+  <tr>
+    <td><code>v.setViewerType(ViewerType.LIST);</code></td>
+    <td colspan=2 >ViewerType.IMAGE (default) or ViewerType.LIST (for more information see below)</td>
+  </tr>
+  <tr>
+    <td><code>`viewer.updateViewer();`</code></td>
+    <td colspan=2>Refresh the current Page</td>
+  </tr>
+  <tr>
+    <td><code>v.loadPage(int pgaeNumber);</code></td>
+    <td>Load the page of the PDF</td>
+    <td>not implemented yet</td>
+  </tr>
+  <tr>
+    <td><code>v.leftPage();</code></td>
+    <td>Switch to the previous page</td>
+    <td>Does not affect the Viewer</td>
+  </tr>
+  <tr>
+    <td><code>v.rightPage();</code></td>
+    <td>Switch to the next page</td>
+    <td>Does not affect the Viewer</td>
+  </tr>
+  <tr>
+    <td><code>v.getCurrentPageNumber();</code></td>
+    <td colspan=2>Returns the number of the current visible page</td>
+  </tr>
+  <tr>
+    <td><code>v.getScaleFactor();</code></td>
+    <td colspan=2>Returns the scale factor (float)</td>
+  </tr>
+</table>
+
 ```java
-//Methods
-v.updateViewer(); // Refresh the page
-v.loadPage(int pageNumber); // ViewerType Image: load the page of the PDF | ViewerType LIST: not implemented yet
-v.leftPage(); // Switch to the previous page (Will only affect the viewer if ViewerType is LIST.)
-v.rightPage(); // Switch to the next page (Will only affect the viewer if ViewerType is LIST.)
-v.getCurrentPageNumber(); // Returns the number of the current visible page
-v.getScaleFactor(); // Returns the scale factor (float)
+//Other Methods
 //Add an PageSwitchEvent
 viewer.addEventHandler(CustomEvent.CUSTOM_EVENT_TYPE, new PageSwitchEventHandler() {
   @Override
@@ -37,16 +83,11 @@ viewer.addEventHandler(CustomEvent.CUSTOM_EVENT_TYPE, new PageSwitchEventHandler
   }
 });
 ```
+#### Screenshot of Viewer
 ![Screenshot of example](https://github.com/Patr1ick/fxPDF/blob/master/viewer.png "Viewer")
 - blue: buttons to navigate through the PDF
 - green: buttons to zoom in/out
 - red: the `ImageView` to show the current page 
-
-#### ViewerType LIST and IMAGE
-##### LIST
-The ViewType LIST displays the pages of the PDF below each other in a ScrollPane.
-##### Image
-The ViewType IMAGE displays each page of the PDF individually. You can navigate using buttons.
 ## Hotkeys
 ### PDFViewer
 - `Control + O` Open a FileDialog to load a new PDF.
