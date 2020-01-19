@@ -11,12 +11,13 @@ PDF pdf = new PDF(file); // Create a PDF
 PDFViewer v = new PDFViewer(pdf); // The PDFViewer object
 root.getChildren().add(v); // Add the Viewer to the root-Pane
 ```
+![Screenshot of example](https://github.com/Patr1ick/fxPDF/blob/master/pdfviewer.png "PDFViewer")
 ### Viewer
 ```java
 PDF pdf = new PDF(file); // Create a PDF 
 Viewer v = new Viewer(pdf); // The Viewer object
-v.setDisableZoomButtons(true); // By default true
-v.setDisableNextPageButtons(true); //By default true
+v.setDisableZoomButtons(true); // By default true (Marked green in the picture below)
+v.setDisableNextPageButtons(true); //By default true (Marked blue in the picture below)
 v.setViewerType(ViewerType.LIST); // Standard is IMAGE (For more information see below)
 root.getChildren().add(v); // Add the Viewer to the root-Pane
 ```
@@ -27,8 +28,16 @@ v.loadPage(int pageNumber); // ViewerType Image: load the page of the PDF | View
 v.leftPage(); // Switch to the previous page (Will only affect the viewer if ViewerType is LIST.)
 v.rightPage(); // Switch to the next page (Will only affect the viewer if ViewerType is LIST.)
 v.getCurrentPageNumber(); // Returns the number of the current visible page
-v.getScaleFactor(); Returns the scale factor (float)
+v.getScaleFactor(); // Returns the scale factor (float)
+//Add an PageSwitchEvent
+viewer.addEventHandler(CustomEvent.CUSTOM_EVENT_TYPE, new PageSwitchEventHandler() {
+  @Override
+  public void onPageSwitch(String param) {
+    // param can be "LEFT", "RIGHT" or "LOADED"
+  }
+});
 ```
+![Screenshot of example](https://github.com/Patr1ick/fxPDF/blob/master/viewer.png "Viewer")
 #### ViewerType LIST and IMAGE
 ##### LIST
 The ViewType LIST displays the pages of the PDF below each other in a ScrollPane.
@@ -49,3 +58,6 @@ The ViewType IMAGE displays each page of the PDF individually. You can navigate 
   - Zooming
   - loadPage: scroll to the given pageNumber
 - More Function for the class `PDF`
+## License
+### PDFBox
+[Apache PDFBox®](https://pdfbox.apache.org/) and [MaterialDesign Icons](https://material.io/resources/icons/) are licensed under the [Apache License v2.0](https://www.apache.org/licenses/LICENSE-2.0).
