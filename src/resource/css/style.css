@@ -73,3 +73,43 @@
 .scroll-bar:hover .decrement-button {
     -fx-background-color:derive(gray,100%);
 }
+
+/*MenuBar*/
+
+.menu-bar{
+    -fx-background-color: #f4f4f4;
+    -fx-border-radius: 2;
+    -fx-border-color: #bababa;
+}
+
+.menu{
+    -fx-background-color: #f4f4f4;
+}
+
+.menu:hover{
+    -fx-background-color: #bababa;
+}
+
+.menu-item{
+    -fx-background-color: #f4f4f4;
+}
+
+.context-menu{
+    -fx-background-color: #f4f4f4;
+    -fx-border-radius: 2;
+    -fx-border-color: #bababa;
+}
+
+.menu-item:hover{
+    -fx-background-color: #bababa;
+}
+
+/*SplitPane*/
+
+.split-pane:horizontal .split-pane-divider {
+   /*-fx-background-color: transparent;*/
+}
+
+.split-pane .split-pane-divider {
+    -fx-padding: 0 0.1em 0 0.1em;
+}

@@ -37,11 +37,10 @@ public class Main extends Application {
             */
 
             PDF pdf = new PDF(selected);
-            //PDF p = new PDF(new File("Test.pdf"));
-            //PDFViewer v;
-            //v = new PDFViewer( primaryStage, pdf);
-            //v.setMenuBarEnable(true);
-            Viewer v = new Viewer(pdf);
+            PDFViewer v;
+            v = new PDFViewer( primaryStage, pdf);
+            v.setMenuBarEnable(true);
+            //Viewer v = new Viewer(pdf);
             Scene s = new Scene(v);
             primaryStage.setScene(s);
             primaryStage.setMaximized(true);

@@ -268,7 +268,6 @@ public class Viewer extends Pane {
 
                     updateViewer();
                 });
-
                 /*
                 this.setOnScroll(event -> {
                     System.out.println(event.getTotalDeltaY());

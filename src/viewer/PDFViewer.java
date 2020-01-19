@@ -1,6 +1,8 @@
 package viewer;
 
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.geometry.Orientation;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
@@ -51,6 +53,12 @@ public class PDFViewer extends BorderPane {
     public PDFViewer(Stage stage, PDF pdf) {
         if (stage != null && pdf != null) {
             this.stage = stage;
+            this.stage.widthProperty().addListener(new ChangeListener<Number>() {
+                @Override
+                public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                    splitPane.setDividerPositions(0.05f);
+                }
+            });
             //this
             this.getStylesheets().add("resource/css/style.css");
             //Nodes
