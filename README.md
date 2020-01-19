@@ -42,7 +42,7 @@ root.getChildren().add(v); // Add the Viewer to the root-Pane
   </tr> 
   <tr>
     <td><code>v.setViewerType(ViewerType.LIST);</code></td>
-    <td colspan=2 >ViewerType.IMAGE (default) or ViewerType.LIST (for more information see below)</td>
+    <td colspan=2 >ViewerType.IMAGE (default) or ViewerType.LIST (for more information see above)</td>
   </tr>
   <tr>
     <td><code>`viewer.updateViewer();`</code></td>
@@ -70,6 +70,11 @@ root.getChildren().add(v); // Add the Viewer to the root-Pane
   <tr>
     <td><code>v.getScaleFactor();</code></td>
     <td colspan=2>Returns the scale factor (float)</td>
+  </tr>
+  <tr>
+    <td><code>v.setScaleFactor(float scaleFactor);</code></td>
+    <td>Set the scale factor and refresh the Viewer</td>
+    <td>Scale is currently not implemented for ViewerType.LIST.</td>
   </tr>
 </table>
 
