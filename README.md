@@ -58,6 +58,7 @@ The ViewType IMAGE displays each page of the PDF individually. You can navigate 
   - Zooming
   - loadPage: scroll to the given pageNumber
 - More Function for the class `PDF`
+- More functionality for the classes `EditablePDF`, `EditablePage`, etc 
 ## License
 ### PDFBox
 [Apache PDFBox®](https://pdfbox.apache.org/) and [MaterialDesign Icons](https://material.io/resources/icons/) are licensed under the [Apache License v2.0](https://www.apache.org/licenses/LICENSE-2.0).

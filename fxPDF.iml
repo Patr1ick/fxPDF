@@ -10,25 +10,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/src/resource/libaries/commons-logging-1.2.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/src/resource/libaries/fontbox-2.0.18.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/src/resource/libaries/pdfbox-2.0.18.jar!/" />
+          <root url="jar://$MODULE_DIR$/src/resource/libaries/pdfbox-app-2.0.18.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
