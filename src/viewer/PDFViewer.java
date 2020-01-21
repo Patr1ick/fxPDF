@@ -3,7 +3,9 @@ package viewer;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
@@ -16,8 +18,7 @@ import javafx.stage.Stage;
 import java.io.File;
 
 import util.PDF;
-import viewer.event.CustomEvent;
-import viewer.event.PageSwitchEventHandler;
+import viewer.nodes.PageChooser;
 import viewer.nodes.PagePreview;
 
 public class PDFViewer extends BorderPane {
@@ -26,12 +27,12 @@ public class PDFViewer extends BorderPane {
     private SplitPane splitPane;
     private VBox toolbar;
 
-
     //Nodes
     private Viewer viewer;
-    private Label name;
-    private Label pageNumber;
     private PagePreview pagePreview;
+
+    private Label name;
+    private PageChooser pageChooser;
 
     //Menubar
     private MenuBar menuBar;
@@ -47,51 +48,50 @@ public class PDFViewer extends BorderPane {
     //Stage
     private Stage stage;
 
-    //
     private boolean menuBarEnable = false;
 
     public PDFViewer(Stage stage, PDF pdf) {
         if (stage != null && pdf != null) {
+            //Stage
             this.stage = stage;
             this.stage.widthProperty().addListener(new ChangeListener<Number>() {
                 @Override
                 public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                    splitPane.setDividerPositions(0.05f);
+                    splitPane.setDividerPositions(0.1f);
                 }
             });
-            //this
+            //CSS
             this.getStylesheets().add("resource/css/style.css");
-            //Nodes
+            //Viewer
             this.viewer = new Viewer(pdf);
-            this.viewer.addEventHandler(CustomEvent.CUSTOM_EVENT_TYPE, new PageSwitchEventHandler() {
-                @Override
-                public void onPageSwitch(String param) {
-                    pageNumber.setText(viewer.getCurrentPageNumber() + 1 + " / " + viewer.getPdf().getNumberOfPages());
-                }
-            });
 
+            //Labels
             this.name = new Label();
             this.name.setText("Path: " + pdf.getAbsolutePath());
-            this.name.getStyleClass().add("name");
+            this.name.getStyleClass().add("path");
 
-            this.pageNumber = new Label();
-            this.pageNumber.getStyleClass().add("pageNumber");
-            this.pageNumber.setText(this.viewer.getCurrentPageNumber() + 1 + " / " + this.viewer.getPdf().getNumberOfPages());
-
+            //PagePreview
             this.pagePreview = new PagePreview(pdf, this.viewer);
 
-            //Panes
+            //PageChooser
+            this.pageChooser = new PageChooser(pdf, this.viewer);
+
+            //PANES
+            //Splitpane
             this.splitPane = new SplitPane();
+            this.splitPane.getStyleClass().add("splitpane");
             this.splitPane.setOrientation(Orientation.HORIZONTAL);
             Platform.runLater(new Runnable() {
                 @Override
                 public void run() {
-                    splitPane.setDividerPositions(0.05f);
+                    splitPane.setDividerPositions(0.1f);
                 }
             });
-            this.splitPane.getItems().addAll(this.pagePreview, this.viewer);
 
+            //Toolbar
             this.toolbar = new VBox();
+            this.toolbar.setSpacing(5d);
+            this.toolbar.setAlignment(Pos.CENTER);
 
             //MenuBar
             this.menuBar = new MenuBar();
@@ -151,10 +151,13 @@ public class PDFViewer extends BorderPane {
                 this.control.getItems().addAll(new SeparatorMenuItem(), menuItemLeftPage, menuItemRightPage);
             }
 
+            //Adding Nodes to Panes
             this.menuBar.getMenus().addAll(this.file, this.control);
 
-            this.toolbar.getChildren().addAll(this.menuBar, this.name, this.pageNumber);
+            this.splitPane.getItems().addAll(this.pagePreview, this.viewer);
+            this.toolbar.getChildren().addAll(this.menuBar, this.name, this.pageChooser);
             this.setTop(this.toolbar);
+            BorderPane.setMargin(this.toolbar, new Insets(10));
             this.setCenter(this.splitPane);
         } else {
             throw new NullPointerException("The parameter pdf and stage is null. Please check this parameter in the constructor.");
@@ -175,6 +178,5 @@ public class PDFViewer extends BorderPane {
         this.viewer.loadPDF(pdf);
         this.pagePreview.loadPDF(pdf);
         this.name.setText("Path: " + pdf.getAbsolutePath());
-        this.pageNumber.setText(this.viewer.getCurrentPageNumber() + " / " + this.viewer.getPdf().getNumberOfPages());
     }
 }

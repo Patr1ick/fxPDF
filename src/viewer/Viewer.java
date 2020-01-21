@@ -105,16 +105,16 @@ public class Viewer extends Pane {
                 this.getStylesheets().add("resource/css/style.css");
 
                 //Images
-                this.img_add = new Image("resource/img/baseline_add_black_48dp.png", 30, 30, true, false);
-                this.img_remove = new Image("resource/img/baseline_remove_black_48dp.png", 30, 30, true, false);
-                this.img_left = new Image("resource/img/baseline_keyboard_arrow_left_black_48dp.png", 30, 30, true, false);
-                this.img_right = new Image("resource/img/baseline_keyboard_arrow_right_black_48dp.png", 30, 30, true, false);
-                this.img_first_page = new Image("resource/img/baseline_first_page_black_48dp.png", 30, 30, true, false);
-                this.img_last_page = new Image("resource/img/baseline_last_page_black_48dp.png", 30, 30, true, false);
+                this.img_add = new Image("resource/img/baseline_add_black_48dp.png", 40, 40, true, false);
+                this.img_remove = new Image("resource/img/baseline_remove_black_48dp.png", 40, 40, true, false);
+                this.img_left = new Image("resource/img/baseline_keyboard_arrow_left_black_48dp.png", 48, 48, true, false);
+                this.img_right = new Image("resource/img/baseline_keyboard_arrow_right_black_48dp.png", 48, 48, true, false);
+                this.img_first_page = new Image("resource/img/baseline_first_page_black_48dp.png", 48, 48, true, false);
+                this.img_last_page = new Image("resource/img/baseline_last_page_black_48dp.png", 48, 48, true, false);
 
                 //Nodes
                 this.nextPageLeft = new Button();
-                this.nextPageLeft.setPrefSize(50d, 50d);
+                this.nextPageLeft.setMaxSize(50d, 50d);
                 this.nextPageLeft.setVisible(false);
                 this.nextPageLeft.setLayoutX(25d);
                 this.nextPageLeft.getStyleClass().add("buttons");
@@ -137,7 +137,7 @@ public class Viewer extends Pane {
                 });
 
                 this.nextPageRight = new Button();
-                this.nextPageRight.setPrefSize(50d, 50d);
+                this.nextPageRight.setMaxSize(50d, 50d);
                 this.nextPageRight.setVisible(false);
                 this.nextPageRight.getStyleClass().add("buttons");
                 if (this.currentPageNumber == this.pdf.getNumberOfPages() - 1) { // 1 page pdf: numberofpages: 1 & currentpagenumber 0
@@ -268,19 +268,18 @@ public class Viewer extends Pane {
 
                     updateViewer();
                 });
-                /*
-                this.setOnScroll(event -> {
-                    System.out.println(event.getTotalDeltaY());
-                    if (controlPressed){
-                        if (event.getDeltaY() < 0 && scaleFactor > 1.0f){
+
+                this.imageView.setOnScroll(event -> {
+                    if (event.isControlDown()) {
+                        if (event.getDeltaY() < 0 && scaleFactor > 1.0f) {
                             scaleFactor -= 1.0f;
-                        }else if(scaleFactor <=  MAXSCALE){
+                        } else if (event.getDeltaY() > 0 && scaleFactor <= MAXSCALE) {
                             scaleFactor += 1.0f;
                         }
-                        updatePage();
+                        updateViewer();
                     }
                 });
-                */
+
 
                 System.out.println("Max Page Numbers: " + this.pdf.getNumberOfPages());
 
@@ -426,8 +425,7 @@ public class Viewer extends Pane {
     public ViewerType getViewerType() {
         return viewerType;
     }
+
+
 }
 
-enum ViewerType {
-    LIST, IMAGE
-}

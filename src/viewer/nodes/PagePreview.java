@@ -22,44 +22,45 @@ public class PagePreview extends ScrollPane {
     private PDF pdf;
 
     public PagePreview(PDF pdf, Viewer viewer) {
-        this.pdf = pdf;
-        this.viewer = viewer;
-
         this.setHbarPolicy(ScrollBarPolicy.NEVER);
         this.setVbarPolicy(ScrollBarPolicy.AS_NEEDED);
         this.setPannable(true);
         this.getStylesheets().add("resource/css/style.css");
 
-
         this.box = new VBox();
         this.box.setAlignment(Pos.CENTER);
-        this.box.setSpacing(1d);
+        this.box.setSpacing(2d);
+        if (pdf != null && viewer != null) {
+            this.pdf = pdf;
+            this.viewer = viewer;
 
-        this.pages = new Button[this.pdf.getNumberOfPages()];
-        initButtons();
-        this.setContent(this.box);
+            this.pages = new Button[this.pdf.getNumberOfPages()];
+            initButtons();
+            this.setContent(this.box);
+        } else
+            throw new NullPointerException("PDF is null.");
 
     }
 
-    private void initButtons(){
+    private void initButtons() {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
                 for (int i = 0; i < pages.length; i++) {
-                    pages[i] = new Button();
+                    pages[i] = new Button(" Page " + (i + 1));
                     ImageView imageView = new ImageView(pdf.getPageImage(i, 1.0f));
                     imageView.setSmooth(false);
                     imageView.setPreserveRatio(true);
-                    imageView.setFitWidth(75d);
-                    imageView.setFitHeight(75d);
+                    imageView.setFitWidth(80d);
+                    imageView.setFitHeight(80d);
                     pages[i].setGraphic(imageView);
+                    pages[i].setPrefSize(150d, 80d);
                     pages[i].getStyleClass().add("previewButtons");
                     int value = i;
                     pages[i].setOnAction(event -> {
                         viewer.loadPage(value);
                     });
                     box.getChildren().add(pages[i]);
-
                 }
             }
         });
@@ -74,5 +75,9 @@ public class PagePreview extends ScrollPane {
 
     public VBox getBox() {
         return box;
+    }
+
+    public Button[] getPages() {
+        return pages;
     }
 }

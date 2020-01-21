@@ -9,6 +9,7 @@ import util.Font;
 import util.PDF;
 import viewer.PDFViewer;
 import viewer.Viewer;
+import viewer.ViewerType;
 
 import java.io.File;
 
@@ -40,7 +41,6 @@ public class Main extends Application {
             PDFViewer v;
             v = new PDFViewer( primaryStage, pdf);
             v.setMenuBarEnable(true);
-            //Viewer v = new Viewer(pdf);
             Scene s = new Scene(v);
             primaryStage.setScene(s);
             primaryStage.setMaximized(true);

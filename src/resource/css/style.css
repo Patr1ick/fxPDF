@@ -4,6 +4,7 @@
     -fx-background-radius: 30;
     -fx-border-color: #bababa;
     -fx-border-radius: 30;
+    -fx-padding: 0 0 0 0;
     /*-fx-effect: dropshadow(gaussian, #000, 1, 0.5, 1, 1)*/
 }
 
@@ -13,8 +14,8 @@
 }
 
 /* PDFVIEWER */
-.name{
-    -fx-font-size: 15;
+.path{
+    -fx-font-size: 18;
     -fx-font-weight: bold;
     -fx-text-fill: #30343b;
     -fx-padding: 0 0 0 15;
@@ -30,10 +31,28 @@
     -fx-border-radius: 2;
     -fx-border-color: #bababa;
     -fx-background-color: transparent;
+    -fx-font-weight: bold;
+    -fx-font-size: 13;
 }
 
 .previewButtons:hover{
     -fx-border-color: #bababa;
+}
+/*PageChooser*/
+.labelPageChooser{
+    -fx-font-size: 15;
+    -fx-font-weight: bold;
+}
+
+.textFieldPageChooser{
+    -fx-alignment: center;
+    -fx-border-radius: 0;
+    -fx-border-color: #bababa;
+    -fx-background-color: #f4f4f4;
+    -fx-font-weight: bold;
+}
+.textFieldPageChooser:focused{
+    -fx-border-color: #535353;
 }
 
 /* ALL */
@@ -106,10 +125,39 @@
 
 /*SplitPane*/
 
-.split-pane:horizontal .split-pane-divider {
+.splitpane:horizontal .split-pane-divider {
    /*-fx-background-color: transparent;*/
 }
 
-.split-pane .split-pane-divider {
+.splitpane .split-pane-divider {
     -fx-padding: 0 0.1em 0 0.1em;
+}
+/*TabPane*/
+.tabPane{
+    -fx-background-color: #f4f4f4;
+    -fx-border-color: #bababa;
+}
+
+.tab-pane .tab{
+    -fx-background-color: #f4f4f4;
+}
+
+.tabPane .tab:hover{
+    -fx-background-color: #bababa;
+}
+
+.tabPane .tab:selected{
+    -fx-background-color: #bababa;
+}
+
+/*Tab*/
+.tab .tab-label{
+    -fx-text-fill: #828282;
+    -fx-font-size: 12;
+    -fx-font-weight: bold;
+    -fx-border-radius: 0;
+}
+
+.tab:selected .tab-label{
+    -fx-text-fill: #535353;
 }

@@ -4,6 +4,7 @@ import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
 import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDDocumentInformation;
 import org.apache.pdfbox.rendering.PDFRenderer;
 
 import java.awt.image.BufferedImage;
@@ -13,6 +14,7 @@ public class PDF {
 
     private PDDocument document;
     private PDFRenderer renderer;
+    private PDDocumentInformation pdDocumentInformation;
 
     private File f;
 
@@ -28,6 +30,7 @@ public class PDF {
         try {
             this.document = PDDocument.load(pdf);
             this.renderer = new PDFRenderer(this.document);
+            this.pdDocumentInformation = document.getDocumentInformation();
 
             System.out.println("Successfully loaded: " + pdf.getAbsolutePath());
         } catch (Exception e) {
@@ -56,6 +59,18 @@ public class PDF {
         }
 
         return SwingFXUtils.toFXImage(pageImage, null);
+    }
+
+    public String getAuthor(){
+        return this.pdDocumentInformation.getAuthor();
+    }
+
+    public String getTitle(){
+        return this.pdDocumentInformation.getTitle();
+    }
+
+    public String getKeywords(){
+        return this.pdDocumentInformation.getKeywords();
     }
 
     public String getAbsolutePath() {
