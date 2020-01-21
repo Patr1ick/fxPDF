@@ -24,7 +24,7 @@ The ViewType IMAGE displays each page of the PDF individually. You can navigate 
 PDF pdf = new PDF(file); // Create a PDF 
 Viewer v = new Viewer(pdf); // The Viewer object
 root.getChildren().add(v); // Add the Viewer to the root-Pane
-```
+``` 
 #### Methods
 <table>
   <tr>
