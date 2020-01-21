@@ -89,7 +89,7 @@ viewer.addEventHandler(CustomEvent.CUSTOM_EVENT_TYPE, new PageSwitchEventHandler
 });
 ```
 #### Screenshot of Viewer
-![Screenshot of example](https://github.com/Patr1ick/fxPDF/blob/master/viewer.png "Viewer")
+![Screenshot of viewer](https://github.com/Patr1ick/fxPDF/blob/master/viewer.png "Viewer")
 - blue: buttons to navigate through the PDF
 - green: buttons to zoom in/out
 - red: the `ImageView` to show the current page 
@@ -103,6 +103,16 @@ viewer.addEventHandler(CustomEvent.CUSTOM_EVENT_TYPE, new PageSwitchEventHandler
 - `Control + Right` Right Page
 - `Control + +` Zoom In
 - `Control + -` Zoom Out
+### PagePreview
+The PagePreview shows a list of all pages of the PDF. If you click on a page, the viewer will load it.
+#### Example
+`PagePreview p = new PagePreview(pdf, viewer);`
+### PageChooser
+With the PageChooser you can see the current page number and the total number of pages. You can also select which page the viewer should display.
+#### Example
+`PageChooser p = new PageChooser(pdf, viewer);`
+#### Screenshot
+![Screenshot of PageChooser](https://github.com/Patr1ick/fxPDF/blob/master/pagechooser.png "PageChooser")
 ## Upcoming Features / Not implemented
 - When viewerType is LIST:
   - Zooming
