@@ -61,15 +61,15 @@ public class PDF {
         return SwingFXUtils.toFXImage(pageImage, null);
     }
 
-    public String getAuthor(){
+    public String getAuthor() {
         return this.pdDocumentInformation.getAuthor();
     }
 
-    public String getTitle(){
+    public String getTitle() {
         return this.pdDocumentInformation.getTitle();
     }
 
-    public String getKeywords(){
+    public String getKeywords() {
         return this.pdDocumentInformation.getKeywords();
     }
 
