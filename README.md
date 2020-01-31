@@ -4,7 +4,8 @@ and the [Apache PDFBox®](https://pdfbox.apache.org/) library.
 ## How does it work?
 The PDFRenderer render a page as an Image and this is displayed in an ImageView. One problem that results from this is that you cannot copy the text, for example.
 ## Integrate it into your own projects
-You can use the more advanced viewer (`PDFViewer`) or the smaller or cleaner version, where you have more custom control (`Viewer`).
+You can download the fxPDF.jar [here](https://github.com/Patr1ick/fxPDF/releases/). You can integrate them into your project via your preferred IDE. When you start the file, you can open a PDF and see the `PDFViewer`.  
+There are two Versions to show the PDF. You can use the more advanced viewer (`PDFViewer`) or the smaller or cleaner version, where you have more custom control (`Viewer`).
 ### PDFViewer
 ```java
 PDF pdf = new PDF(file); // Create a PDF 
@@ -45,7 +46,7 @@ root.getChildren().add(v); // Add the Viewer to the root-Pane
     <td colspan=2 >ViewerType.IMAGE (default) or ViewerType.LIST (for more information see above)</td>
   </tr>
   <tr>
-    <td><code>`viewer.updateViewer();`</code></td>
+    <td><code>viewer.updateViewer();</code></td>
     <td colspan=2>Refresh the current Page</td>
   </tr>
   <tr>
