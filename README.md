@@ -94,16 +94,6 @@ viewer.addEventHandler(CustomEvent.CUSTOM_EVENT_TYPE, new PageSwitchEventHandler
 - blue: buttons to navigate through the PDF
 - green: buttons to zoom in/out
 - red: the `ImageView` to show the current page 
-## Hotkeys
-### PDFViewer
-- `Control + O` Open a FileDialog to load a new PDF.
-- `Control + Q` Close the Window
-- `F11` Toggle Fullscreen
-### Viewer
-- `Control + Left` Left Page
-- `Control + Right` Right Page
-- `Control + +` Zoom In
-- `Control + -` Zoom Out
 ### PagePreview
 The PagePreview shows a list of all pages of the PDF. If you click on a page, the viewer will load it.
 #### Example
@@ -114,6 +104,17 @@ With the PageChooser you can see the current page number and the total number of
 `PageChooser p = new PageChooser(pdf, viewer);`
 #### Screenshot
 ![Screenshot of PageChooser](https://github.com/Patr1ick/fxPDF/blob/master/pagechooser.png "PageChooser")
+## Hotkeys
+### PDFViewer
+- `Control + O` Open a FileDialog to load a new PDF.
+- `Control + Q` Close the Window
+- `F11` Toggle Fullscreen
+### Viewer
+- `Control + Left` Left Page
+- `Control + Right` Right Page
+- `Control + +` Zoom In
+- `Control + -` Zoom Out
+
 ## Upcoming Features / Not implemented
 - When viewerType is LIST:
   - Zooming
