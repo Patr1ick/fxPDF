@@ -123,3 +123,4 @@ With the PageChooser you can see the current page number and the total number of
 - More functionality for the classes `EditablePDF`, `EditablePage`, etc 
 ## License
 [Apache PDFBox®](https://pdfbox.apache.org/) and [MaterialDesign Icons](https://material.io/resources/icons/) are licensed under the [Apache License v2.0](https://www.apache.org/licenses/LICENSE-2.0).
+The Apache license allows me to put the software under a different license. The library is licensed under the European Union Public License v1.2 ([EUPL v1.2](https://eupl.eu/1.2/en/)).
