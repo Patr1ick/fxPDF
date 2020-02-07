@@ -3,6 +3,7 @@ package viewer;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.CacheHint;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
@@ -70,6 +71,8 @@ public class Viewer extends Pane {
     private ViewerType viewerType = ViewerType.IMAGE;
 
     public Viewer(PDF pdf) {
+        this.setCache(true);
+        this.setCacheHint(CacheHint.SPEED);
         if (pdf != null) {
             try {
                 this.pdf = pdf;
@@ -83,11 +86,8 @@ public class Viewer extends Pane {
                 this.listVBox.setAlignment(Pos.CENTER);
                 this.listVBox.setSpacing(5d);
 
-                this.pdfList = new ImageView[this.pdf.getNumberOfPages()];
-                for (int i = 0; i < this.pdfList.length; i++) {
-                    this.pdfList[i] = new ImageView(this.pdf.getPageImage(i, this.scaleFactor));
-                    this.listVBox.getChildren().add(this.pdfList[i]);
-                }
+                if (this.viewerType == ViewerType.LIST)
+                    loadPDFasList();
 
                 //Panes
                 this.stackPane = new StackPane();
@@ -100,18 +100,16 @@ public class Viewer extends Pane {
                 this.scrollPane.setPannable(true);
                 this.scrollPane.setContent(this.stackPane);
 
-
                 //CSS
                 this.getStylesheets().add("resource/css/style.css");
 
                 //Images
-                this.img_add = new Image("resource/img/baseline_add_black_48dp.png", 40, 40, true, false);
-                this.img_remove = new Image("resource/img/baseline_remove_black_48dp.png", 40, 40, true, false);
-                this.img_left = new Image("resource/img/baseline_keyboard_arrow_left_black_48dp.png", 48, 48, true, false);
-                this.img_right = new Image("resource/img/baseline_keyboard_arrow_right_black_48dp.png", 48, 48, true, false);
-                this.img_first_page = new Image("resource/img/baseline_first_page_black_48dp.png", 48, 48, true, false);
-                this.img_last_page = new Image("resource/img/baseline_last_page_black_48dp.png", 48, 48, true, false);
-
+                this.img_add = new Image("resource/img/baseline_add_black_48dp.png", 40, 40, true, false, true);
+                this.img_remove = new Image("resource/img/baseline_remove_black_48dp.png", 40, 40, true, false, true);
+                this.img_left = new Image("resource/img/baseline_keyboard_arrow_left_black_48dp.png", 48, 48, true, false, true);
+                this.img_right = new Image("resource/img/baseline_keyboard_arrow_right_black_48dp.png", 48, 48, true, false, true);
+                this.img_first_page = new Image("resource/img/baseline_first_page_black_48dp.png", 48, 48, true, false, true);
+                this.img_last_page = new Image("resource/img/baseline_last_page_black_48dp.png", 48, 48, true, false, true);
                 //Nodes
                 this.nextPageLeft = new Button();
                 this.nextPageLeft.setMaxSize(50d, 50d);
@@ -200,7 +198,6 @@ public class Viewer extends Pane {
                 this.zoomTool.getChildren().addAll(this.zoomIn, this.zoomOut);
 
                 this.getChildren().addAll(this.scrollPane, this.zoomTool, this.nextPageLeft, this.nextPageRight);
-
                 //Events
                 this.setOnMouseEntered(event -> {
                     if (!disableZoomButtons) {
@@ -279,8 +276,6 @@ public class Viewer extends Pane {
                         updateViewer();
                     }
                 });
-
-
                 System.out.println("Max Page Numbers: " + this.pdf.getNumberOfPages());
 
 
@@ -304,7 +299,25 @@ public class Viewer extends Pane {
             this.getChildren().removeAll(this.nextPageRight, this.nextPageLeft, this.zoomTool);
             this.stackPane.getChildren().remove(this.imageView);
             this.stackPane.getChildren().add(this.listVBox);
+            loadPDFasList();
         }
+    }
+
+    public void loadPDFasList() {
+        new Thread(() -> {
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    pdfList = new ImageView[pdf.getNumberOfPages()];
+                    for (int i = 0; i < pdfList.length; i++) {
+                        pdfList[i] = new ImageView(pdf.getPageImage(i, scaleFactor));
+                        listVBox.getChildren().add(pdfList[i]);
+
+                    }
+                }
+            });
+        }).start();
+
     }
 
     public void loadPDF(PDF pdf) {

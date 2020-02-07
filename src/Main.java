@@ -4,6 +4,9 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import util.PDF;
 import viewer.PDFViewer;
+import viewer.Viewer;
+import viewer.ViewerType;
+
 import java.io.File;
 
 public class Main extends Application {

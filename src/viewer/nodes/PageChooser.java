@@ -41,7 +41,7 @@ public class PageChooser extends HBox {
             this.textField.setMaxHeight(5d);
             this.textField.getStyleClass().add("textFieldPageChooser");
             this.textField.setOnAction(event -> {
-                viewer.loadPage(Integer.parseInt(this.textField.getText()));
+                viewer.loadPage(Integer.parseInt(this.textField.getText()) - 1);
             });
 
             this.getChildren().addAll(this.textField, this.label);

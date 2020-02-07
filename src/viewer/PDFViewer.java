@@ -71,7 +71,13 @@ public class PDFViewer extends BorderPane {
             this.name.getStyleClass().add("path");
 
             //PagePreview
-            this.pagePreview = new PagePreview(pdf, this.viewer);
+
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    pagePreview = new PagePreview(pdf, viewer);
+                }
+            }).start();
 
             //PageChooser
             this.pageChooser = new PageChooser(pdf, this.viewer);
@@ -153,11 +159,10 @@ public class PDFViewer extends BorderPane {
 
             //Adding Nodes to Panes
             this.menuBar.getMenus().addAll(this.file, this.control);
-
             this.splitPane.getItems().addAll(this.pagePreview, this.viewer);
             this.toolbar.getChildren().addAll(this.menuBar, this.name, this.pageChooser);
             this.setTop(this.toolbar);
-            BorderPane.setMargin(this.toolbar, new Insets(2,1,10,1));
+            BorderPane.setMargin(this.toolbar, new Insets(2, 1, 10, 1));
             this.setCenter(this.splitPane);
         } else {
             throw new NullPointerException("The parameter pdf and stage is null. Please check this parameter in the constructor.");

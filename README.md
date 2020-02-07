@@ -18,7 +18,7 @@ root.getChildren().add(v); // Add the Viewer to the root-Pane
 #### ViewerType LIST and IMAGE
 There are two types of viewer to display the PDF differently.
 ##### LIST
-The ViewType LIST displays the pages of the PDF below each other in a ScrollPane.
+The ViewType LIST displays the pages of the PDF below each other in a ScrollPane. I do not recommend this for PDFs with many pages, because Javafx will get some performance issue.
 ##### Image
 The ViewType IMAGE displays each page of the PDF individually. You can navigate using buttons.
 ```java
