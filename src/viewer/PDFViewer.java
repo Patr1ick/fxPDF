@@ -41,6 +41,7 @@ public class PDFViewer extends BorderPane {
     private Menu control;
 
     private MenuItem menuItemLoadPDF;
+    private MenuItem menuItemBlankText;
     private MenuItem menuItemClose;
 
     private MenuItem menuItemFullscreen;
@@ -50,8 +51,11 @@ public class PDFViewer extends BorderPane {
 
     private boolean menuBarEnable = false;
 
+    private PDF pdf;
+
     public PDFViewer(Stage stage, PDF pdf) {
         if (stage != null && pdf != null) {
+            this.pdf = pdf;
             //Stage
             this.stage = stage;
             this.stage.widthProperty().addListener(new ChangeListener<Number>() {
@@ -63,11 +67,11 @@ public class PDFViewer extends BorderPane {
             //CSS
             this.getStylesheets().add("resource/css/style.css");
             //Viewer
-            this.viewer = new Viewer(pdf);
+            this.viewer = new Viewer(this.pdf);
 
             //Labels
             this.name = new Label();
-            this.name.setText("Path: " + pdf.getAbsolutePath());
+            this.name.setText("Path: " + this.pdf.getAbsolutePath());
             this.name.getStyleClass().add("path");
 
             //PagePreview
@@ -80,7 +84,7 @@ public class PDFViewer extends BorderPane {
             }).start();
 
             //PageChooser
-            this.pageChooser = new PageChooser(pdf, this.viewer);
+            this.pageChooser = new PageChooser(this.pdf, this.viewer);
 
             //PANES
             //Splitpane
@@ -122,6 +126,11 @@ public class PDFViewer extends BorderPane {
                 }
             });
 
+            this.menuItemBlankText = new MenuItem("Show Blank Text");
+            this.menuItemBlankText.setAccelerator(new KeyCodeCombination(KeyCode.B, KeyCombination.CONTROL_DOWN));
+            this.menuItemBlankText.setOnAction(event -> {
+            });
+
             this.menuItemClose = new MenuItem("Close Window");
             this.menuItemClose.setAccelerator(new KeyCodeCombination(KeyCode.Q, KeyCombination.CONTROL_DOWN));
             this.menuItemClose.setOnAction(event -> {
@@ -139,7 +148,7 @@ public class PDFViewer extends BorderPane {
                 }
             });
 
-            this.file.getItems().addAll(this.menuItemLoadPDF, this.menuItemClose);
+            this.file.getItems().addAll(this.menuItemLoadPDF/*, this.menuItemBlankText*/, this.menuItemClose);
             this.control.getItems().addAll(this.menuItemFullscreen);
 
             if (this.viewer.getViewerType() == ViewerType.IMAGE) {
@@ -180,8 +189,9 @@ public class PDFViewer extends BorderPane {
 
 
     public void loadPDF(PDF pdf) {
-        this.viewer.loadPDF(pdf);
-        this.pagePreview.loadPDF(pdf);
-        this.name.setText("Path: " + pdf.getAbsolutePath());
+        this.pdf = pdf;
+        this.viewer.loadPDF(this.pdf);
+        this.pagePreview.loadPDF(this.pdf);
+        this.name.setText("Path: " + this.pdf.getAbsolutePath());
     }
 }

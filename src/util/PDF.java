@@ -3,20 +3,26 @@ package util;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
+import org.apache.pdfbox.pdfparser.PDFParser;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDDocumentInformation;
 import org.apache.pdfbox.rendering.PDFRenderer;
+import org.apache.pdfbox.text.PDFTextStripper;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
 
 public class PDF {
 
     private PDDocument document;
     private PDFRenderer renderer;
     private PDDocumentInformation pdDocumentInformation;
+    private PDFTextStripper pdfTextStripper;
 
     private File f;
+
+    private String pdfText;
 
     public PDF(File pdf) {
         if (pdf != null) {
@@ -31,7 +37,8 @@ public class PDF {
             this.document = PDDocument.load(pdf);
             this.renderer = new PDFRenderer(this.document);
             this.pdDocumentInformation = document.getDocumentInformation();
-
+            this.pdfTextStripper = new PDFTextStripper();
+            this.pdfText = this.pdfTextStripper.getText(this.document);
             System.out.println("Successfully loaded: " + pdf.getAbsolutePath());
         } catch (Exception e) {
             Alert a = new Alert(Alert.AlertType.ERROR);
@@ -59,6 +66,14 @@ public class PDF {
         }
 
         return SwingFXUtils.toFXImage(pageImage, null);
+    }
+
+    public void searchText(String text){
+
+    }
+
+    public String getPdfText() {
+        return pdfText;
     }
 
     public String getAuthor() {

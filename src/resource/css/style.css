@@ -5,14 +5,15 @@
     -fx-border-color: #bababa;
     -fx-border-radius: 30;
     -fx-padding: 0 0 0 0;
-    /*-fx-effect: dropshadow(gaussian, #000, 1, 0.5, 1, 1)*/
 }
 
 .buttons:hover{
-    -fx-background-color: #bababa;
-    -fx-padding: 2 0 0 2;
+    -fx-background-color: #999999;
 }
-
+.button:disabled{
+    -fx-background-color: #f7f7f7;
+    -fx-border-color: #cccccc;
+}
 /* PDFVIEWER */
 .path{
     -fx-font-size: 18;
