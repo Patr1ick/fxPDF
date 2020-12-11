@@ -53,7 +53,7 @@ public class PDFViewer extends BorderPane {
 
     private PDF pdf;
 
-    private ApperanceType apperanceType;
+    private AppearanceType appearanceType;
     private String path;
 
     public PDFViewer(Stage stage, PDF pdf) {
@@ -67,7 +67,7 @@ public class PDFViewer extends BorderPane {
                     splitPane.setDividerPositions(0.1f);
                 }
             });
-            apperanceType = ApperanceType.DARK;
+            appearanceType = AppearanceType.DARK;
             path = null;
             init();
         } else {
@@ -75,7 +75,7 @@ public class PDFViewer extends BorderPane {
         }
     }
 
-    public PDFViewer(Stage stage, PDF pdf, ApperanceType apperanceType, String path) {
+    public PDFViewer(Stage stage, PDF pdf, AppearanceType appearanceType, String path) {
         if (stage != null || pdf != null) {
             this.pdf = pdf;
             //Stage
@@ -86,7 +86,7 @@ public class PDFViewer extends BorderPane {
                     splitPane.setDividerPositions(0.1f);
                 }
             });
-            this.apperanceType = apperanceType;
+            this.appearanceType = appearanceType;
             this.path = path;
             init();
         } else {
@@ -105,7 +105,7 @@ public class PDFViewer extends BorderPane {
                     splitPane.setDividerPositions(0.1f);
                 }
             });
-            this.apperanceType = builder.apperanceType;
+            this.appearanceType = builder.appearanceType;
             this.path = builder.path;
             init();
         } else {
@@ -116,13 +116,13 @@ public class PDFViewer extends BorderPane {
     public static class PDFViewerBuilder {
         private Stage stage;
         private PDF pdf;
-        private ApperanceType apperanceType;
+        private AppearanceType appearanceType;
         private String path;
 
         public PDFViewerBuilder() {
             this.stage = null;
             this.pdf = null;
-            this.apperanceType = ApperanceType.LIGHT;
+            this.appearanceType = AppearanceType.LIGHT;
             this.path = null;
         }
 
@@ -136,8 +136,8 @@ public class PDFViewer extends BorderPane {
             return this;
         }
 
-        public PDFViewerBuilder setApperanceType(ApperanceType apperanceType) {
-            this.apperanceType = apperanceType;
+        public PDFViewerBuilder setApperanceType(AppearanceType appearanceType) {
+            this.appearanceType = appearanceType;
             return this;
         }
 
@@ -155,7 +155,7 @@ public class PDFViewer extends BorderPane {
         //Viewer
         this.viewer = new Viewer.ViewerBuilder()
                 .setPDF(this.pdf)
-                .setAppearanceType(this.apperanceType)
+                .setAppearanceType(this.appearanceType)
                 .setPath(this.path)
                 .build();
 

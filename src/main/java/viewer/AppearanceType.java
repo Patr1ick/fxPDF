@@ -1,5 +1,5 @@
 package viewer;
 
-public enum ApperanceType {
+public enum AppearanceType {
     Custom, DARK, LIGHT
 }

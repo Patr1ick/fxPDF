@@ -3,7 +3,7 @@ import javafx.scene.Scene;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import util.PDF;
-import viewer.ApperanceType;
+import viewer.AppearanceType;
 import viewer.PDFViewer;
 
 import java.io.File;
@@ -29,7 +29,7 @@ public class Main extends Application {
             PDFViewer v = new PDFViewer.PDFViewerBuilder()
                     .setStage(primaryStage)
                     .setPDF(pdf)
-                    .setApperanceType(ApperanceType.LIGHT)
+                    .setApperanceType(AppearanceType.LIGHT)
                     .setPath(null)
                     .build();
             /*Viewer v = new Viewer.ViewerBuilder()

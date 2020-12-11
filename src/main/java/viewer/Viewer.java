@@ -57,7 +57,7 @@ public class Viewer extends Pane {
     @Setter
     private boolean disableNextPageButtons = false;
 
-    private ApperanceType apperanceType;
+    private AppearanceType appearanceType;
 
     @Getter
     private String path_css;
@@ -108,21 +108,21 @@ public class Viewer extends Pane {
         }
     }
 
-    public Viewer(PDF pdf, ApperanceType apperanceType, String path) {
+    public Viewer(PDF pdf, AppearanceType appearanceType, String path) {
         this.setCache(true);
         this.setCacheHint(CacheHint.SPEED);
         if (pdf != null) {
             try {
                 this.pdf = pdf;
-                if (apperanceType == ApperanceType.Custom) {
+                if (appearanceType == AppearanceType.Custom) {
                     if (path != null || path != "") {
-                        this.apperanceType = apperanceType;
+                        this.appearanceType = appearanceType;
                         this.path_css = path;
                     } else {
                         throw new NullPointerException("The given path is null.");
                     }
                 } else {
-                    this.apperanceType = apperanceType;
+                    this.appearanceType = appearanceType;
                 }
                 init();
             } catch (Exception e) {
@@ -140,8 +140,8 @@ public class Viewer extends Pane {
     private Viewer(ViewerBuilder builder) {
         if (builder.pdf != null) {
             this.pdf = builder.pdf;
-            this.apperanceType = builder.apperanceType;
-            if (this.apperanceType == ApperanceType.Custom)
+            this.appearanceType = builder.appearanceType;
+            if (this.appearanceType == AppearanceType.Custom)
                 if (builder.path != null)
                     path_css = builder.path;
                 else
@@ -154,12 +154,12 @@ public class Viewer extends Pane {
 
     public static class ViewerBuilder {
         private PDF pdf;
-        private ApperanceType apperanceType;
+        private AppearanceType appearanceType;
         private String path;
 
         public ViewerBuilder() {
             this.pdf = null;
-            this.apperanceType = ApperanceType.LIGHT;
+            this.appearanceType = AppearanceType.LIGHT;
             this.path = null;
         }
 
@@ -168,8 +168,8 @@ public class Viewer extends Pane {
             return this;
         }
 
-        public ViewerBuilder setAppearanceType(ApperanceType apperanceType) {
-            this.apperanceType = apperanceType;
+        public ViewerBuilder setAppearanceType(AppearanceType appearanceType) {
+            this.appearanceType = appearanceType;
             return this;
         }
 
@@ -209,20 +209,7 @@ public class Viewer extends Pane {
         this.scrollPane.setContent(this.stackPane);
 
         //CSS
-        switch (this.apperanceType) {
-            case DARK:
-                this.getStylesheets().add("css/style-dark.css");
-                path_css = "css/style-dark.css";
-                break;
-            case LIGHT:
-                this.getStylesheets().add("css/style.css");
-                path_css = "css/style.css";
-                break;
-            case Custom:
-                this.getStylesheets().add(path_css);
-                this.stackPane.getStylesheets().add(path_css);
-                break;
-        }
+        checkAppearanceType();
 
         //Images
         this.img_zoom_in = new Image(getClass().getResourceAsStream("/img/zoom_in.png"));
@@ -518,6 +505,21 @@ public class Viewer extends Pane {
     public void setScaleFactor(float scaleFactor) {
         this.scaleFactor = scaleFactor;
         updateViewer();
+    }
+
+    private void checkAppearanceType() {
+        this.getStyleClass().remove(0, this.getStyleClass().size());
+        switch (this.appearanceType) {
+            case DARK:
+                path_css = PATH_DARK_CSS;
+                break;
+            case LIGHT:
+                path_css = PATH_LIGHT_CSS;
+                break;
+            case Custom:
+                break;
+        }
+        this.getStylesheets().add(path_css);
     }
 }
 

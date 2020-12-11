@@ -1,23 +1,56 @@
 # fxPDF
-This is a PDF viewer libary written in JavaFX. I used icons from [MaterialDesign](https://material.io/resources/icons/) 
+
+This is a PDF viewer libary written in JavaFX. I used icons from [MaterialDesign](https://material.io/resources/icons/)
 and the [Apache PDFBox®](https://pdfbox.apache.org/) library.
+
+## Content
+
+- [How does it work?](#how-does-it-work)
+- [Integrate it into your own project](#integrate-it-into-your-own-project)
+  - [PDFViewer](#pdfviewer)
+    - [Screenshot of PDFViewer](#screenshot-of-pdfviewer)
+  - [Viewer](#viewer)
+    - [ViewerType LIST and IMAGE](#viewertype-list-and-image)
+      - [LIST](#list)
+      - [IMAGE](#image)
+    - [Methods](#methods)
+    - [Screenshot of Viewer](#screenshot-of-viewer)
+  - [PagePreview](#pagepreview)
+  - [PageChooser](#pagechooser)
+  - [Appearance](#appearance)
+- [Hotkeys](#hotkeys)
+- [Upcoming Features / Not implemented](#upcoming-features--not-implemented)
+- [License](License)
+
 ## How does it work?
-The PDFRenderer render a page as an Image and this is displayed in an ImageView. One problem that results from this is that you cannot copy the text, for example.
-## Integrate it into your own projects
-You can download the fxPDF.jar [here](https://github.com/Patr1ick/fxPDF/releases/). You can integrate them into your project via your preferred IDE. When you start the file, you can open a PDF and see the `PDFViewer`.  
-There are two Versions to show the PDF. You can use the more advanced viewer (`PDFViewer`) or the smaller or cleaner version, where you have more custom control (`Viewer`).
+
+The PDFRenderer render a page as an Image and this is displayed in an ImageView. One problem that results from this is
+that you cannot copy the text, for example.
+
+## Integrate it into your own project
+
+You can download the fxPDF.jar [here](https://github.com/Patr1ick/fxPDF/releases/). You can integrate them into your
+project via your preferred IDE. When you start the file, you can open a PDF and see the `PDFViewer`.  
+There are two Versions to show the PDF. You can use the more advanced viewer (`PDFViewer`) or the smaller or cleaner
+version, where you have more custom control (`Viewer`).
+
 ### PDFViewer
+
 ```java
-PDF pdf=new PDF(file); // Create a PDF 
-        PDFViewer v=new PDFViewer(pdf); // The PDFViewer object
-        root.getChildren().add(v); // Add the Viewer to the root-Pane
+// Create a PDF
+PDF pdf=new PDF(file);
+// The PDFViewer object
+        PDFViewer v=new PDFViewer(pdf);
+
 //Alternatively
         PDFViewer v=new PDFViewer.PDFViewerBuilder()
         .setStage(primaryStage)
         .setPDF(pdf)
-        .setApperanceType(ApperanceType.LIGHT)
+        .setAppearanceType(AppearanceType.LIGHT)
         .setPath(null)
         .build();
+
+// Add the Viewer to the root-Pane
 ```
 #### Screenshot of PDFViewer
 ![Screenshot of example](https://github.com/Patr1ick/fxPDF/blob/master/pdfviewer.png "PDFViewer")
@@ -26,19 +59,25 @@ PDF pdf=new PDF(file); // Create a PDF
 There are two types of viewer to display the PDF differently.
 ##### LIST
 The ViewType LIST displays the pages of the PDF below each other in a ScrollPane. I do not recommend this for PDFs with many pages, because Javafx will get some performance issue.
-##### Image
+
+##### IMAGE
 The ViewType IMAGE displays each page of the PDF individually. You can navigate using buttons.
 
 ```java
-PDF pdf=new PDF(file); // Create a PDF 
-        Viewer v=new Viewer(pdf); // The Viewer object
-        root.getChildren().add(v); // Add the Viewer to the root-Pane
+// Create a PDF 
+PDF pdf=new PDF(file);
+// The Viewer object        
+        Viewer v=new Viewer(pdf);
+
 //Alternatively
         Viewer v=new Viewer.ViewerBuilder()
         .setPDF(pdf)
-        .setAppearanceType(ApperanceType.DARK)
+        .setAppearanceType(AppearanceType.DARK)
         .setPath(null)
         .build();
+
+// Add the Viewer to the root-Pane
+        root.getChildren().add(v); 
 ``` 
 #### Methods
 <table>
@@ -130,9 +169,9 @@ the viewer should display.
 
 ![Screenshot of PageChooser](https://github.com/Patr1ick/fxPDF/blob/master/pagechooser.png "PageChooser")
 
-### Apperance
+### Appearance
 
-There are 3 possible options for the apperance of the `Viewer` or `PDFViewer`.
+There are 3 possible options for the appearance of the `Viewer` or `PDFViewer`.
 
 - __DARK__ (The Dark Theme will be adjusted in future). You do not need to specify the path to a .css file.
 - __LIGHT__: The standard theme for the viewer. You do not need to specify the path to a .css file.
@@ -140,13 +179,13 @@ There are 3 possible options for the apperance of the `Viewer` or `PDFViewer`.
 
 ## Hotkeys
 
-### PDFViewer
+### Hotkeys PDFViewer
 
 - `Control + O` Open a FileDialog to load a new PDF.
 - `Control + Q` Close the Window
 - `F11` Toggle Fullscreen
 
-### Viewer
+### Hotkeys Viewer
 
 - `Control + Left` Left Page
 - `Control + Right` Right Page
