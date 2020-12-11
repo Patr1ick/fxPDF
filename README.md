@@ -8,9 +8,16 @@ You can download the fxPDF.jar [here](https://github.com/Patr1ick/fxPDF/releases
 There are two Versions to show the PDF. You can use the more advanced viewer (`PDFViewer`) or the smaller or cleaner version, where you have more custom control (`Viewer`).
 ### PDFViewer
 ```java
-PDF pdf = new PDF(file); // Create a PDF 
-PDFViewer v = new PDFViewer(pdf); // The PDFViewer object
-root.getChildren().add(v); // Add the Viewer to the root-Pane
+PDF pdf=new PDF(file); // Create a PDF 
+        PDFViewer v=new PDFViewer(pdf); // The PDFViewer object
+        root.getChildren().add(v); // Add the Viewer to the root-Pane
+//Alternatively
+        PDFViewer v=new PDFViewer.PDFViewerBuilder()
+        .setStage(primaryStage)
+        .setPDF(pdf)
+        .setApperanceType(ApperanceType.LIGHT)
+        .setPath(null)
+        .build();
 ```
 #### Screenshot of PDFViewer
 ![Screenshot of example](https://github.com/Patr1ick/fxPDF/blob/master/pdfviewer.png "PDFViewer")
@@ -21,10 +28,17 @@ There are two types of viewer to display the PDF differently.
 The ViewType LIST displays the pages of the PDF below each other in a ScrollPane. I do not recommend this for PDFs with many pages, because Javafx will get some performance issue.
 ##### Image
 The ViewType IMAGE displays each page of the PDF individually. You can navigate using buttons.
+
 ```java
-PDF pdf = new PDF(file); // Create a PDF 
-Viewer v = new Viewer(pdf); // The Viewer object
-root.getChildren().add(v); // Add the Viewer to the root-Pane
+PDF pdf=new PDF(file); // Create a PDF 
+        Viewer v=new Viewer(pdf); // The Viewer object
+        root.getChildren().add(v); // Add the Viewer to the root-Pane
+//Alternatively
+        Viewer v=new Viewer.ViewerBuilder()
+        .setPDF(pdf)
+        .setAppearanceType(ApperanceType.DARK)
+        .setPath(null)
+        .build();
 ``` 
 #### Methods
 <table>
@@ -93,34 +107,66 @@ viewer.addEventHandler(CustomEvent.CUSTOM_EVENT_TYPE, new PageSwitchEventHandler
 ![Screenshot of viewer](https://github.com/Patr1ick/fxPDF/blob/master/viewer.png "Viewer")
 - blue: buttons to navigate through the PDF
 - green: buttons to zoom in/out
-- red: the `ImageView` to show the current page 
+- red: the `ImageView` to show the current page
+
 ### PagePreview
+
 The PagePreview shows a list of all pages of the PDF. If you click on a page, the viewer will load it.
+
 #### Example
+
 `PagePreview p = new PagePreview(pdf, viewer);`
+
 ### PageChooser
-With the PageChooser you can see the current page number and the total number of pages. You can also select which page the viewer should display.
+
+With the PageChooser you can see the current page number and the total number of pages. You can also select which page
+the viewer should display.
+
 #### Example
+
 `PageChooser p = new PageChooser(pdf, viewer);`
+
 #### Screenshot
+
 ![Screenshot of PageChooser](https://github.com/Patr1ick/fxPDF/blob/master/pagechooser.png "PageChooser")
+
+### Apperance
+
+There are 3 possible options for the apperance of the `Viewer` or `PDFViewer`.
+
+- __DARK__ (The Dark Theme will be adjusted in future). You do not need to specify the path to a .css file.
+- __LIGHT__: The standard theme for the viewer. You do not need to specify the path to a .css file.
+- __CUSTOM__: You need to set the path to a .css file in the Constructor or Builder.
+
 ## Hotkeys
+
 ### PDFViewer
+
 - `Control + O` Open a FileDialog to load a new PDF.
 - `Control + Q` Close the Window
 - `F11` Toggle Fullscreen
+
 ### Viewer
+
 - `Control + Left` Left Page
 - `Control + Right` Right Page
 - `Control + +` Zoom In
 - `Control + -` Zoom Out
 
 ## Upcoming Features / Not implemented
+
 - When viewerType is LIST:
   - Zooming
   - loadPage: scroll to the given pageNumber
 - More Function for the class `PDF`
-- More functionality for the classes `EditablePDF`, `EditablePage`, etc 
+- Better logging
+- Better Darktheme
+
 ## License
-[Apache PDFBox®](https://pdfbox.apache.org/) and [MaterialDesign Icons](https://material.io/resources/icons/) are licensed under the [Apache License v2.0](https://www.apache.org/licenses/LICENSE-2.0).
-The Apache license allows me to put the software under a different license. The library is licensed under the European Union Public License v1.2 ([EUPL v1.2](https://eupl.eu/1.2/en/)).
+
+This library is licensed under the European Union Public License v1.2 ([EUPL v1.2](https://eupl.eu/1.2/en/)).
+
+- __[Apache PDFBox®](https://pdfbox.apache.org/)__: [Apache License v2.0](https://www.apache.org/licenses/LICENSE-2.0).
+- __[Project Lombok](https://projectlombok.org/)__: [MIT License](https://opensource.org/licenses/MIT)
+- __[MaterialDesign Icons](https://material.io/resources/icons/)__: [Apache License v2.0](https://www.apache.org/licenses/LICENSE-2.0)
+  .

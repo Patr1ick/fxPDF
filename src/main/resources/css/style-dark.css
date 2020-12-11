@@ -1,0 +1,166 @@
+/* VIEWER */
+.buttons {
+    -fx-background-color: #ababab;
+    -fx-background-radius: 100;
+    -fx-padding: 0;
+}
+
+.buttons:hover {
+    -fx-background-color: #8a8a8a;
+}
+
+.button:disabled {
+    -fx-background-color: #d0d0d0;
+}
+
+/* PDFVIEWER */
+.path {
+    -fx-font-size: 18;
+    -fx-font-weight: bold;
+    -fx-text-fill: #FFF;
+    -fx-padding: 0 0 0 15;
+}
+
+.pageNumber {
+    -fx-font-weight: bold;
+    -fx-padding: 0 0 0 15;
+}
+
+/* PagePreview */
+.previewButtons {
+    -fx-border-radius: 2;
+    -fx-border-color: #000;
+    -fx-background-color: #323232;
+    -fx-text-fill: #FFF;
+    -fx-font-weight: bold;
+    -fx-font-size: 13;
+}
+
+.previewButtons:hover {
+    -fx-border-color: #000;
+}
+
+.preview-vbox {
+    -fx-background-color: #121212;
+}
+
+/*PageChooser*/
+.labelPageChooser {
+    -fx-font-size: 15;
+    -fx-font-weight: bold;
+    -fx-text-fill: #FFF;
+}
+
+.textFieldPageChooser {
+    -fx-alignment: center;
+    -fx-border-radius: 0;
+    -fx-border-color: #000;
+    -fx-background-color: #ababab;
+    -fx-font-weight: bold;
+    -fx-text-fill: #FFF;
+}
+
+.textFieldPageChooser:focused {
+    -fx-border-color: #535353;
+}
+
+/* ALL */
+/*Label*/
+.label {
+    -fx-font-size: 13;
+    -fx-text-fill: #FFF;
+}
+
+/* ScrollBar*/
+.scroll-bar {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar .track {
+    -fx-background-radius: 0;
+    -fx-border-radius: 0;
+}
+
+.scroll-bar .thumb {
+    -fx-background-color: #ababab;
+    -fx-background-radius: 0;
+    -fx-border-radius: 0;
+}
+
+.scroll-bar:hover .thumb {
+    -fx-background-color: #8a8a8a;
+}
+
+.scroll-bar .increment-button,
+.scroll-bar .decrement-button {
+    -fx-background-color: transparent;
+    -fx-border-color: derive(#121212, 80%);
+}
+
+.scroll-bar:hover .increment-button,
+.scroll-bar:hover .decrement-button {
+    -fx-background-color: derive(#121212, 100%);
+}
+
+/*MenuBar*/
+
+.menu-bar {
+    -fx-background-color: #090909;
+    -fx-border-radius: 2;
+    /*-fx-border-color: #2a5378;*/
+}
+
+.menu {
+    -fx-background-color: #090909;
+}
+
+.menu:hover {
+    -fx-background-color: #8a8a8a;
+}
+
+.menu-item {
+    -fx-background-color: #121212;
+}
+
+.context-menu {
+    -fx-background-color: #121212;
+}
+
+.menu-item:hover {
+    -fx-background-color: #8a8a8a;
+}
+
+/*SplitPane*/
+
+.splitpane {
+    -fx-background-color: #121212;
+}
+
+.splitpane:horizontal .split-pane-divider {
+    /*-fx-background-color: transparent;*/
+}
+
+.splitpane .split-pane-divider {
+    -fx-padding: 0 0.1em 0 0.1em;
+}
+
+/*ROOT*/
+.root {
+    -fx-background-color: #090909;
+}
+
+.split-pane {
+    -fx-background-color: #121212;
+}
+
+.stackpane {
+    -fx-background-color: #121212;
+}
+
+.scroll-pane {
+    -fx-background-color: #121212;
+}
+
+.scroll-pane .corner {
+    -fx-background-color: #121212;
+}
