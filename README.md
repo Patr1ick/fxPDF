@@ -1,6 +1,6 @@
 # fxPDF
 
-This is a PDF viewer libary written in JavaFX. I used icons from [MaterialDesign](https://material.io/resources/icons/)
+This is a PDF viewer library written in JavaFX. I used icons from [MaterialDesign](https://material.io/resources/icons/)
 and the [Apache PDFBox®](https://pdfbox.apache.org/) library.
 
 ## Content
@@ -20,7 +20,7 @@ and the [Apache PDFBox®](https://pdfbox.apache.org/) library.
   - [Appearance](#appearance)
 - [Hotkeys](#hotkeys)
 - [Upcoming Features / Not implemented](#upcoming-features--not-implemented)
-- [License](License)
+- [License](#license)
 
 ## How does it work?
 
