@@ -43,12 +43,12 @@ PDF pdf=new PDF(file);
         PDFViewer v=new PDFViewer(pdf);
 
 //Alternatively
-        PDFViewer v=new PDFViewer.PDFViewerBuilder()
-        .setStage(primaryStage)
-        .setPDF(pdf)
-        .setAppearanceType(AppearanceType.LIGHT)
-        .setPath(null)
-        .build();
+PDFViewer v = new PDFViewer.PDFViewerBuilder()
+  .setStage(primaryStage)
+  .setPDF(pdf)
+  .setAppearanceType(AppearanceType.LIGHT)
+  .setPath(null)
+  .build();
 
 // Add the Viewer to the root-Pane
 ```
@@ -70,11 +70,11 @@ PDF pdf=new PDF(file);
         Viewer v=new Viewer(pdf);
 
 //Alternatively
-        Viewer v=new Viewer.ViewerBuilder()
-        .setPDF(pdf)
-        .setAppearanceType(AppearanceType.DARK)
-        .setPath(null)
-        .build();
+Viewer v=new Viewer.ViewerBuilder()
+  .setPDF(pdf)
+  .setAppearanceType(AppearanceType.DARK)
+  .setPath(null)
+  .build();
 
 // Add the Viewer to the root-Pane
         root.getChildren().add(v); 
