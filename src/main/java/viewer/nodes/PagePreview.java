@@ -11,10 +11,15 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import util.PDF;
 import viewer.Viewer;
 
 public class PagePreview extends Pane {
+
+    // Logger
+    private static final Logger LOGGER = LogManager.getLogger(PagePreview.class);
 
     //Panes
     @Getter
@@ -77,9 +82,10 @@ public class PagePreview extends Pane {
                 this.stackPane.setPrefHeight(newValue.doubleValue());
             });
 
-        } else
-            throw new NullPointerException("PDF is null.");
-
+        } else {
+            LOGGER.error("The parameter pdf is null.");
+            throw new NullPointerException("The parameter pdf is null.");
+        }
     }
 
     private void initButtons() {

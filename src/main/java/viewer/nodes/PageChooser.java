@@ -4,6 +4,8 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import util.PDF;
 import viewer.Viewer;
 import viewer.event.CustomEvent;
@@ -11,6 +13,10 @@ import viewer.event.PageSwitchEventHandler;
 
 public class PageChooser extends HBox {
 
+    // Logger
+    private static final Logger LOGGER = LogManager.getLogger(PageChooser.class);
+
+    // Nodes
     private Label label;
     private TextField textField;
 
@@ -45,6 +51,9 @@ public class PageChooser extends HBox {
             });
 
             this.getChildren().addAll(this.textField, this.label);
+        } else {
+            LOGGER.error("The parameter pdf or viewer is null.");
+            throw new NullPointerException("The parameter pdf or viewer is null.");
         }
     }
 }

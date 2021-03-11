@@ -21,10 +21,15 @@ import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import util.PDF;
 import viewer.event.PageSwitchEvent;
 
 public class Viewer extends Pane {
+
+    // Logger
+    private static final Logger LOGGER = LogManager.getLogger(Viewer.class);
 
     //Panes
     private ScrollPane scrollPane;
@@ -104,6 +109,7 @@ public class Viewer extends Pane {
                 a.showAndWait();
             }
         } else {
+            LOGGER.error("The parameter pdf is null.");
             throw new NullPointerException("The parameter pdf is null. Please check this parameter in the constructor.");
         }
     }
@@ -133,6 +139,7 @@ public class Viewer extends Pane {
                 a.showAndWait();
             }
         } else {
+            LOGGER.error("The parameter pdf is null.");
             throw new NullPointerException("The parameter pdf is null. Please check this parameter in the constructor.");
         }
     }
@@ -144,11 +151,15 @@ public class Viewer extends Pane {
             if (this.appearanceType == AppearanceType.Custom)
                 if (builder.path != null)
                     path_css = builder.path;
-                else
+                else {
+                    LOGGER.error("The parameter path is null.");
                     throw new NullPointerException("The parameter path is null");
+                }
             init();
-        } else
+        } else {
+            LOGGER.error("The parameter pdf is null.");
             throw new NullPointerException("The parameter pdf is null.");
+        }
 
     }
 
@@ -369,8 +380,6 @@ public class Viewer extends Pane {
                 updateViewer();
             }
         });
-
-        System.out.println("Max Page Numbers: " + this.pdf.getNumberOfPages());
     }
 
 
@@ -409,8 +418,8 @@ public class Viewer extends Pane {
             this.pdf = pdf;
             this.currentPageNumber = 0;
             updateViewer();
-            System.out.println("Max Page Numbers: " + this.pdf.getNumberOfPages());
         } else {
+            LOGGER.error("The parameter pdf is null.");
             throw new NullPointerException("The parameter pdf is null. Please check this parameter in the constructor.");
         }
     }
@@ -457,7 +466,8 @@ public class Viewer extends Pane {
             this.fireEvent(new PageSwitchEvent("LOADED"));
             updateViewer();
         } else if (this.viewerType == ViewerType.LIST) {
-            //this.scrollPane.setVvalue((1d / this.pdf.getNumberOfPages() * pageNumber)); // currently not working
+            LOGGER.info("This function is not yet implemented.");
+            //this.scrollPane.setVvalue((1d / this.pdf.getNumberOfPages() * pageNumber));
         }
     }
 

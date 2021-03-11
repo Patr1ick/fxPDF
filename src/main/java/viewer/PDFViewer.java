@@ -14,6 +14,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import util.PDF;
 import viewer.nodes.PageChooser;
 import viewer.nodes.PagePreview;
@@ -21,6 +23,9 @@ import viewer.nodes.PagePreview;
 import java.io.File;
 
 public class PDFViewer extends BorderPane {
+
+    // Logger
+    private static final Logger LOGGER = LogManager.getLogger(PDFViewer.class);
 
     //Panes
     private SplitPane splitPane;
@@ -71,6 +76,7 @@ public class PDFViewer extends BorderPane {
             path = null;
             init();
         } else {
+            LOGGER.error("The parameter stage or pdf is null.");
             throw new NullPointerException("The parameter pdf or stage is null. Please check this parameter in the constructor.");
         }
     }
@@ -90,6 +96,7 @@ public class PDFViewer extends BorderPane {
             this.path = path;
             init();
         } else {
+            LOGGER.error("The parameter pdf or stage is null.");
             throw new NullPointerException("The parameter pdf or stage is null. Please check this parameter in the constructor.");
         }
     }
@@ -109,6 +116,7 @@ public class PDFViewer extends BorderPane {
             this.path = builder.path;
             init();
         } else {
+            LOGGER.error("The parameter pdf or stage is null.");
             throw new NullPointerException("The parameter pdf or stage is null.");
         }
     }
