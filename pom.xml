@@ -6,7 +6,7 @@
 
     <groupId>org.example</groupId>
     <artifactId>fxPDF</artifactId>
-    <version>v0.2-beta</version>
+    <version>v0.3</version>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>

@@ -1,0 +1,84 @@
+/* Pane */
+.pdfcontent {
+    -fx-background-color: #161b22;
+}
+
+/* Hyperlink */
+.hyperlink {
+    -fx-text-fill: #c9d1d9;
+    -fx-border-color: transparent;
+}
+
+.hyperlink:focused {
+    -fx-font-weight: bold;
+}
+
+.hyperlink:visited {
+    -fx-text-fill: #c9d1d9;
+    -fx-underline: false;
+}
+
+/* TreeView */
+.tree-view {
+    -fx-background-color: #161b22;
+    -fx-padding: 0 0 0 10;
+}
+
+.tree-cell {
+    -fx-background-color: #161b22;
+}
+
+.tree-cell:hover {
+    -fx-background-color: #30363d;
+}
+
+.tree-cell:hover .hyperlink {
+    -fx-font-weight: bold;
+}
+
+/* Scrollbar */
+.scroll-bar {
+    -fx-background-color: #424242;
+}
+
+.scroll-bar .track {
+    -fx-background-color: #424242;
+    -fx-background-radius: 0;
+    -fx-border-radius: 0;
+}
+
+.scroll-bar .thumb {
+    -fx-background-color: #575e62;
+    -fx-background-radius: 0;
+    -fx-border-radius: 1;
+}
+
+.scroll-bar:vertical {
+    -fx-pref-width: 1.3em;
+}
+
+.scroll-bar:horizontal {
+    -fx-pref-height: 1.3em;
+}
+
+.scroll-bar .thumb:hover {
+    -fx-background-color: #686868;
+}
+
+.scroll-bar .thumb:pressed {
+    -fx-background-color: #a1a1a1;
+}
+
+.scroll-bar:horizontal .increment-button,
+.scroll-bar:horizontal .decrement-button {
+    -fx-background-color: #424242;
+}
+
+.scroll-bar:vertical .increment-button:hover,
+.scroll-bar:vertical .decrement-button:hover {
+    -fx-background-color: #4f4f4f;
+}
+
+.corner {
+    -fx-background-color: #424242;
+}

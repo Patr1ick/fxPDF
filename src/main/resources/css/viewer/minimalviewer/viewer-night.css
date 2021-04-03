@@ -1,0 +1,55 @@
+/* ScrollBar*/
+.scroll-bar {
+    -fx-background-color: #424242;
+}
+
+.scroll-bar .track {
+    -fx-background-color: #424242;
+    -fx-background-radius: 0;
+    -fx-border-radius: 0;
+}
+
+.scroll-bar .thumb {
+    -fx-background-color: #575e62;
+    -fx-background-radius: 0;
+    -fx-border-radius: 1;
+}
+
+.scroll-bar .thumb:hover {
+    -fx-background-color: #686868;
+}
+
+.scroll-bar .thumb:pressed {
+    -fx-background-color: #a1a1a1;
+}
+
+.scroll-bar:vertical {
+    -fx-pref-width: 1.3em;
+}
+
+.scroll-bar:horizontal {
+    -fx-pref-height: 1.3em;
+}
+
+
+.scroll-bar:horizontal .increment-button,
+.scroll-bar:horizontal .decrement-button {
+    -fx-background-color: #424242;
+}
+
+.scroll-bar:vertical .increment-button:hover,
+.scroll-bar:vertical .decrement-button:hover {
+    -fx-background-color: #4f4f4f;
+}
+
+.scroll-pane {
+    -fx-background-color: #424242;
+}
+
+.scroll-pane .corner {
+    -fx-background-color: #424242;
+}
+
+.stackpane {
+    -fx-background-color: #161b22;
+}

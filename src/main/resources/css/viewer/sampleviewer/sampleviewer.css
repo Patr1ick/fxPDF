@@ -1,0 +1,23 @@
+.split-pane {
+    -fx-background-color: #24292e;
+}
+
+.toolbar {
+    -fx-background-color: #24292e;
+}
+
+.sample-viewer {
+    -fx-background-color: #24292e;
+}
+
+.separator {
+    -fx-background-color: #444d56;
+    -fx-background-radius: 0.0em;
+}
+
+.separator .line {
+    -fx-background-color: #444d56;
+    -fx-border-color: #444d56;
+    -fx-border-style: solid;
+    -fx-border-width: 0.025em;
+}

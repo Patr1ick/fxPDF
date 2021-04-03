@@ -1,0 +1,15 @@
+.label {
+    -fx-text-fill: #c9d1d9;
+}
+
+.text-field {
+    -fx-background-color: #070a10;
+    -fx-text-fill: #c9d1d9;
+    -fx-border-color: #21262d;
+    -fx-accent: #388bfd;
+    -fx-alignment: center;
+}
+
+.text-field:focused {
+    -fx-border-color: #388bfd;
+}

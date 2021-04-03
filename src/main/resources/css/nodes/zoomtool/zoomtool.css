@@ -1,0 +1,32 @@
+/* Button */
+.button {
+    -fx-border-radius: 0;
+    -fx-border-color: #444d56;
+    -fx-background-color: #24292e;
+    -fx-font-weight: bold;
+    -fx-text-fill: #c9d1d9;
+}
+
+.button:hover {
+    -fx-background-color: #30363d;
+    -fx-border-color: #8b949e;
+}
+
+.button:pressed {
+    -fx-background-color: #24292e;
+    -fx-border-color: #8b949e;
+}
+
+/* TextField */
+
+.text-field {
+    -fx-background-color: #24292e;
+    -fx-text-fill: #c9d1d9;
+    -fx-border-color: #444d56;
+    -fx-accent: #388bfd;
+    -fx-alignment: center;
+}
+
+.text-field:focused {
+    -fx-border-color: #0366d6;
+}
