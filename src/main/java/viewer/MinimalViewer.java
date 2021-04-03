@@ -203,7 +203,11 @@ public class MinimalViewer extends Pane {
                         eventEnd();
                         break;
                     case RENDER:
-                        eventRender();
+                        new Thread(() -> {
+                            Platform.runLater(() -> {
+                                eventRender();
+                            });
+                        }).start();
                         break;
                     default:
                         LOGGER.debug("Wrong parameter is given");
