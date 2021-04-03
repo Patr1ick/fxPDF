@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Configuration status="info">
     <Properties>
-        <Property name="layout">%d [%t] %-5level %logger{36} - %m%n</Property>
+        <Property name="layout">[%highlight{%.5level}{FATAL=red blink, ERROR=red, WARN=yellow, INFO=blue bright,
+            DEBUG=cyan, TRACE=blue}] %d [%t] %logger{36} - %m%n
+        </Property>
     </Properties>
     <Appenders>
         <Console name="Console" target="SYSTEM_OUT">
-            <PatternLayout pattern="${layout}"/>
+            <PatternLayout disableAnsi="false" pattern="${layout}"/>
         </Console>
     </Appenders>
     <Loggers>

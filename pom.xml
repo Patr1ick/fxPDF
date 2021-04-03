@@ -6,7 +6,7 @@
 
     <groupId>org.example</groupId>
     <artifactId>fxPDF</artifactId>
-    <version>v0.2-beta</version>
+    <version>1.0</version>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
@@ -23,7 +23,7 @@
         <dependency>
             <groupId>org.apache.pdfbox</groupId>
             <artifactId>pdfbox</artifactId>
-            <version>2.0.21</version>
+            <version>2.0.4</version>
         </dependency>
         <!-- Log4j -->
         <dependency>

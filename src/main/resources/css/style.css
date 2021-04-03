@@ -77,9 +77,10 @@
     -fx-background-color: #c7c7c7;
     -fx-background-radius: 0;
     -fx-border-radius: 0;
+    -fx-background-insets: 1, 0, 0;
 }
 
-.scroll-bar:hover .thumb{
+.scroll-bar .thumb:hover {
     -fx-background-color: #bababa;
 }
 
@@ -89,9 +90,9 @@
     -fx-border-color:derive(gray,80%);
 }
 
-.scroll-bar:hover .increment-button ,
-.scroll-bar:hover .decrement-button {
-    -fx-background-color:derive(gray,100%);
+.scroll-bar .increment-button:hover,
+.scroll-bar .decrement-button:hover {
+    -fx-border-color: derive(gray, 50%);
 }
 
 /*MenuBar*/

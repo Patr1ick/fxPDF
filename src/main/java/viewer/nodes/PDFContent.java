@@ -1,0 +1,179 @@
+package viewer.nodes;
+
+import javafx.scene.control.Hyperlink;
+import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeView;
+import javafx.scene.layout.Pane;
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.Setter;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageTree;
+import org.apache.pdfbox.pdmodel.interactive.documentnavigation.outline.PDDocumentOutline;
+import org.apache.pdfbox.pdmodel.interactive.documentnavigation.outline.PDOutlineItem;
+import org.apache.pdfbox.pdmodel.interactive.documentnavigation.outline.PDOutlineNode;
+import viewer.AppearanceType;
+import viewer.MinimalViewer;
+import viewer.event.Parameter;
+import viewer.event.ViewerEvent;
+import viewer.event.ViewerEventHandler;
+
+import java.io.IOException;
+import java.util.ArrayList;
+
+/**
+ * The PDFContent Node views all chapter and you can navigate to them
+ *
+ * @author Patr1ick
+ */
+public class PDFContent extends Pane {
+
+    //Logger
+    private static final Logger LOGGER = LogManager.getLogger(PDFContent.class);
+
+    private final MinimalViewer minimalViewer;
+
+    // Tree
+    private TreeView treeView;
+    private ArrayList<TreeItem<Hyperlink>> contents;
+
+    // Appearance
+    @Getter
+    private AppearanceType appearanceType;
+    @Getter
+    @Setter
+    private String custom_path_css;
+    private final String PATH_DARK_CSS = "css/nodes/pdfcontent/pdfcontent-night.css";
+    private final String PATH_LIGHT_CSS = "css/nodes/pdfcontent/pdfcontent.css";
+
+    public PDFContent(@NonNull MinimalViewer minimalViewer) throws IOException {
+        this.minimalViewer = minimalViewer;
+        initialize();
+    }
+
+    /**
+     * @throws IOException Can throw an IO Exception
+     */
+    private void initialize() throws IOException {
+        // The TreeView
+        this.treeView = new TreeView();
+        this.treeView.setEditable(false);
+        this.treeView.setShowRoot(false);
+        // EventHandler
+        this.minimalViewer.addEventHandler(ViewerEvent.VIEWER_EVENT_TYPE, new ViewerEventHandler() {
+            @Override
+            public void onViewerEvent(@NonNull Parameter parameter) {
+                switch (parameter) {
+                    case THEME_CHANGED:
+                        setAppearanceType(minimalViewer.getAppearanceType());
+                        break;
+                    case PDF_LOADED:
+                        try {
+                            createTreeView();
+                        } catch (IOException e) {
+                            LOGGER.error(e.getMessage());
+                        }
+                        break;
+                }
+            }
+        });
+
+        // This
+        this.getStyleClass().add("pdfcontent");
+        this.widthProperty().addListener((observableValue, oldNumber, newNumber) -> {
+            this.treeView.setPrefWidth(newNumber.doubleValue());
+        });
+        this.heightProperty().addListener((observableValue, oldNumber, newNumber) -> {
+            this.treeView.setPrefHeight(newNumber.doubleValue());
+        });
+        this.getChildren().add(this.treeView);
+        // Generate TreeView
+        createTreeView();
+    }
+
+    /**
+     * @throws IOException Can throw an IO Exception
+     */
+    private void createTreeView() throws IOException {
+        this.contents = new ArrayList<>();
+        PDDocumentOutline outline = this.minimalViewer.getPdf().getDocument().getDocumentCatalog().getDocumentOutline();
+        if (outline != null) {
+            generateTree(outline, null);
+        }
+        // Add all items to the root element and add it to the TreeView
+        // Root Item
+        TreeItem<Hyperlink> root = new TreeItem<>(new Hyperlink());
+        for (TreeItem<Hyperlink> treeItem : this.contents) {
+            root.getChildren().add(treeItem);
+        }
+        this.treeView.setRoot(root);
+    }
+
+    /**
+     * @param outline An PDOutlineNode
+     * @param parent  The parent TreeItem
+     * @throws IOException Can throw an IO Exception
+     */
+    private void generateTree(PDOutlineNode outline, TreeItem<Hyperlink> parent) throws IOException {
+        PDOutlineItem currentItem = outline.getFirstChild();
+        while (currentItem != null) {
+            int pageNumber = 1;
+            PDPageTree pages = this.minimalViewer.getPdf().getDocument().getDocumentCatalog().getPages();
+            for (PDPage page : pages) {
+                if (page.equals(currentItem.findDestinationPage(this.minimalViewer.getPdf().getDocument()))) {
+                    break;
+                }
+                pageNumber++;
+            }
+            // Create Hyperlink and TreeItem
+            Hyperlink hyperlink = new Hyperlink();
+            hyperlink.setText(currentItem.getTitle());
+            int finalNumber = pageNumber;
+            hyperlink.setOnAction(actionEvent -> {
+                minimalViewer.loadPage(finalNumber - 1);
+            });
+            TreeItem<Hyperlink> treeItem = new TreeItem<Hyperlink>();
+            treeItem.setExpanded(true);
+            treeItem.setValue(hyperlink);
+
+            // Set to parent
+            if (parent == null) {
+                this.contents.add(treeItem);
+            } else {
+                parent.getChildren().add(treeItem);
+            }
+            // Recursive call
+            generateTree(currentItem, treeItem);
+            currentItem = currentItem.getNextSibling();
+        }
+    }
+
+    /**
+     * @param appearanceType The new appearance type
+     */
+    public void setAppearanceType(@NonNull AppearanceType appearanceType) {
+        this.appearanceType = appearanceType;
+        switch (this.appearanceType) {
+            case LIGHT:
+                this.getStylesheets().remove(0, this.getStylesheets().size());
+                this.getStylesheets().add(PATH_LIGHT_CSS);
+                break;
+            case DARK:
+                this.getStylesheets().remove(0, this.getStylesheets().size());
+                this.getStylesheets().add(PATH_DARK_CSS);
+                break;
+            case Custom:
+                this.getStylesheets().remove(0, this.getStylesheets().size());
+                if (custom_path_css != null) {
+                    this.getStylesheets().add(custom_path_css);
+                } else {
+                    LOGGER.error("The custom path is null");
+                    throw new NullPointerException("The custom path is null");
+                }
+                break;
+        }
+    }
+
+}
