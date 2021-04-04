@@ -4,9 +4,22 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.example</groupId>
+    <groupId>com.github.patr1ick</groupId>
     <artifactId>fxPDF</artifactId>
     <version>1.0</version>
+    <packaging>jar</packaging>
+
+    <name>${project.artifactId}</name>
+    <description>This is a PDF-Viewer library for JavaFX.</description>
+    <url>http://www.example.com/example-application</url>
+
+    <licenses>
+        <license>
+            <name>European Union Public License 1.2</name>
+            <url>https://eupl.eu/1.2/en/</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>

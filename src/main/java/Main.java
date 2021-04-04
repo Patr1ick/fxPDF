@@ -4,7 +4,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import util.PDF;
 import viewer.AppearanceType;
-import viewer.SampleViewer;
+import viewer.MinimalViewer;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,10 +25,13 @@ public class Main extends Application {
         if (selected != null) {
             //Create PDF
             PDF pdf = new PDF(selected);
-            SampleViewer sampleViewer = new SampleViewer(pdf);
-            sampleViewer.switchTheme(AppearanceType.DARK);
+            MinimalViewer mv = new MinimalViewer.MinimalViewerBuilder()
+                    .setPDF(pdf)
+                    .setAppearanceType(AppearanceType.DARK)
+                    .build();
+
             //Scene and add PDFViewer
-            Scene s = new Scene(sampleViewer);
+            Scene s = new Scene(mv);
             //Stage settings
             primaryStage.setScene(s);
             primaryStage.setMaximized(true);

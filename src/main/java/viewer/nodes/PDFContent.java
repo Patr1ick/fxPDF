@@ -48,12 +48,20 @@ public class PDFContent extends Pane {
     private final String PATH_DARK_CSS = "css/nodes/pdfcontent/pdfcontent-night.css";
     private final String PATH_LIGHT_CSS = "css/nodes/pdfcontent/pdfcontent.css";
 
+    /**
+     * The PDFContent constructor
+     *
+     * @param minimalViewer The MinimalViewer object that will the PDFContent listen to
+     * @throws IOException Can throw an IO Exception
+     */
     public PDFContent(@NonNull MinimalViewer minimalViewer) throws IOException {
         this.minimalViewer = minimalViewer;
         initialize();
     }
 
     /**
+     * Initialize the PDFContent object
+     *
      * @throws IOException Can throw an IO Exception
      */
     private void initialize() throws IOException {
@@ -94,6 +102,8 @@ public class PDFContent extends Pane {
     }
 
     /**
+     * Creates the TreeView for the loaded pdf
+     *
      * @throws IOException Can throw an IO Exception
      */
     private void createTreeView() throws IOException {
@@ -112,6 +122,8 @@ public class PDFContent extends Pane {
     }
 
     /**
+     * This will generate the Tree recursively
+     *
      * @param outline An PDOutlineNode
      * @param parent  The parent TreeItem
      * @throws IOException Can throw an IO Exception
@@ -151,6 +163,8 @@ public class PDFContent extends Pane {
     }
 
     /**
+     * Set the appearance type of this node
+     *
      * @param appearanceType The new appearance type
      */
     public void setAppearanceType(@NonNull AppearanceType appearanceType) {

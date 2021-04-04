@@ -45,6 +45,8 @@ public class ZoomTool extends HBox {
     private final String PATH_LIGHT_CSS = "css/nodes/zoomtool/zoomtool.css";
 
     /**
+     * The ZoomTool constructor
+     *
      * @param minimalViewer The minimal viewer that the ZoomTool should listen to
      */
     public ZoomTool(@NonNull MinimalViewer minimalViewer) {
@@ -110,6 +112,8 @@ public class ZoomTool extends HBox {
     }
 
     /**
+     * Set the appearance type of this node
+     *
      * @param appearanceType The appearance type
      */
     public void setAppearanceType(@NonNull AppearanceType appearanceType) {

@@ -81,12 +81,88 @@ public class MinimalViewer extends Pane {
     private double scrollspeed = 3.0d;
 
     /**
+     * The MinimalViewer constructor
+     *
      * @param pdf The pdf that will be displayed
      */
     public MinimalViewer(@NonNull PDF pdf) {
         this.pdf = pdf;
         initialize();
         this.requestFocus();
+    }
+
+    /**
+     * The MinimalViewer constructor for the MinimalViewerBuilder
+     *
+     * @param builder A MinimalViewerBuilder object
+     */
+    private MinimalViewer(@NonNull MinimalViewerBuilder builder) {
+        this.pdf = builder.pdf;
+        this.appearanceType = builder.appearanceType;
+        if (this.custom_path_css != null) {
+            this.custom_path_css = builder.custom_path;
+        }
+        initialize();
+    }
+
+    /**
+     * The MinimalViewerBuilder class
+     */
+    public static class MinimalViewerBuilder {
+        private PDF pdf;
+        private AppearanceType appearanceType;
+        private String custom_path;
+
+        /**
+         * The MinimalViewerBuilder constructor
+         */
+        public MinimalViewerBuilder() {
+            this.pdf = null;
+            this.appearanceType = AppearanceType.DARK;
+            this.custom_path = null;
+        }
+
+        /**
+         * Set the pdf that will be displayed
+         *
+         * @param pdf The new pdf object
+         * @return The MinimalViewerBuilder object
+         */
+        public MinimalViewerBuilder setPDF(@NonNull PDF pdf) {
+            this.pdf = pdf;
+            return this;
+        }
+
+        /**
+         * Set the initial appearance type for the viewer
+         *
+         * @param appearanceType The appearance type
+         * @return The MinimalViewerBuilder object
+         */
+        public MinimalViewerBuilder setAppearanceType(@NonNull AppearanceType appearanceType) {
+            this.appearanceType = appearanceType;
+            return this;
+        }
+
+        /**
+         * Set the custom path for a custom theme
+         *
+         * @param custom_path The custom path to a .css file
+         * @return The MinimalViewerBuilder object
+         */
+        public MinimalViewerBuilder setCustomPath(@NonNull String custom_path) {
+            this.custom_path = custom_path;
+            return this;
+        }
+
+        /**
+         * Generate the object
+         *
+         * @return The MinimalViewer object
+         */
+        public MinimalViewer build() {
+            return new MinimalViewer(this);
+        }
     }
 
     /**
@@ -247,6 +323,8 @@ public class MinimalViewer extends Pane {
     }
 
     /**
+     * Load a new pdf
+     *
      * @param pdf The new pdf that will be displayed
      */
     public void loadPDF(@NonNull PDF pdf) {
@@ -345,6 +423,8 @@ public class MinimalViewer extends Pane {
     }
 
     /**
+     * Set the scale factor and trigger the render event
+     *
      * @param scaleFactor the new scale factor
      */
     public void setScaleFactor(@NonNull float scaleFactor) {

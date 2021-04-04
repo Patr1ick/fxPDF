@@ -26,8 +26,8 @@ public class PageChooser extends HBox {
     private static final Logger LOGGER = LogManager.getLogger(PDFContent.class);
 
     // Nodes
-    private final Label label;
-    private final TextField textField;
+    private Label label;
+    private TextField textField;
 
     private final MinimalViewer viewer;
 
@@ -41,11 +41,19 @@ public class PageChooser extends HBox {
     private final String PATH_LIGHT_CSS = "css/nodes/pagechooser/pagechooser.css";
 
     /**
+     * The PageChooser constructor
+     *
      * @param viewer The minimum viewer that the PageChooser should listen to
      */
     public PageChooser(@NonNull MinimalViewer viewer) {
-        this.setAlignment(Pos.CENTER);
         this.viewer = viewer;
+        initialize();
+    }
+
+    /**
+     * Initialize the PageChooser node
+     */
+    private void initialize() {
         this.viewer.addEventHandler(ViewerEvent.VIEWER_EVENT_TYPE, new ViewerEventHandler() {
             @Override
             public void onViewerEvent(Parameter parameter) {
@@ -74,10 +82,13 @@ public class PageChooser extends HBox {
             viewer.loadPage(Integer.parseInt(this.textField.getText()) - 1);
         });
 
+        this.setAlignment(Pos.CENTER);
         this.getChildren().addAll(this.textField, this.label);
     }
 
     /**
+     * Set the appearance type of this node
+     *
      * @param appearanceType The new appearance type
      */
     public void setAppearanceType(@NonNull AppearanceType appearanceType) {

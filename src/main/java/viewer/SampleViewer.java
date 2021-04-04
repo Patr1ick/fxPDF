@@ -58,6 +58,8 @@ public class SampleViewer extends BorderPane {
     private final String PATH_LIGHT_CSS = "css/viewer/sampleviewer/sampleviewer.css";
 
     /**
+     * The SampleViewer constructor
+     *
      * @param pdf The pdf that will be displayed
      */
     public SampleViewer(@NonNull PDF pdf) throws IOException {
@@ -115,6 +117,8 @@ public class SampleViewer extends BorderPane {
     }
 
     /**
+     * Load a new pdf
+     *
      * @param pdf The pdf that will be displayed
      */
     public void loadPDF(@NonNull PDF pdf) {
@@ -123,6 +127,8 @@ public class SampleViewer extends BorderPane {
     }
 
     /**
+     * Set the appearance type of this node
+     *
      * @param appearanceType The appearance type
      */
     private void setAppearanceType(@NonNull AppearanceType appearanceType) {
@@ -150,6 +156,8 @@ public class SampleViewer extends BorderPane {
     }
 
     /**
+     * Switch the appearance type of this node
+     *
      * @param appearanceType The new appearance type
      */
     public void switchTheme(@NonNull AppearanceType appearanceType) {

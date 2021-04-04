@@ -2,6 +2,8 @@
 
 This is a PDF viewer library for JavaFX.
 
+__Note that you can't include the current version of this library in your project!__
+
 ## Documentation
 
 You can find the documentation [here](https://github.com/Patr1ick/fxPDF/wiki).
