@@ -1,4 +1,4 @@
-# eu.patrickgeiger.fxpdf.fxPDF
+# fxPDF
 
 This is a PDF viewer library for JavaFX.
 
