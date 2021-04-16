@@ -1,5 +1,10 @@
-package viewer.nodes;
+package eu.patrickgeiger.fxpdf.nodes;
 
+import eu.patrickgeiger.fxpdf.event.Parameter;
+import eu.patrickgeiger.fxpdf.event.ViewerEvent;
+import eu.patrickgeiger.fxpdf.event.ViewerEventHandler;
+import eu.patrickgeiger.fxpdf.viewer.AppearanceType;
+import eu.patrickgeiger.fxpdf.viewer.MinimalViewer;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
@@ -14,11 +19,6 @@ import org.apache.pdfbox.pdmodel.PDPageTree;
 import org.apache.pdfbox.pdmodel.interactive.documentnavigation.outline.PDDocumentOutline;
 import org.apache.pdfbox.pdmodel.interactive.documentnavigation.outline.PDOutlineItem;
 import org.apache.pdfbox.pdmodel.interactive.documentnavigation.outline.PDOutlineNode;
-import viewer.AppearanceType;
-import viewer.MinimalViewer;
-import viewer.event.Parameter;
-import viewer.event.ViewerEvent;
-import viewer.event.ViewerEventHandler;
 
 import java.io.IOException;
 import java.util.ArrayList;

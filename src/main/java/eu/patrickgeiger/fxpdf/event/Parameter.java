@@ -1,4 +1,4 @@
-package viewer.event;
+package eu.patrickgeiger.fxpdf.event;
 
 /**
  * @author Patr1ick

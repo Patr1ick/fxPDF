@@ -1,6 +1,11 @@
-package viewer.nodes;
+package eu.patrickgeiger.fxpdf.nodes;
 
 
+import eu.patrickgeiger.fxpdf.event.Parameter;
+import eu.patrickgeiger.fxpdf.event.ViewerEvent;
+import eu.patrickgeiger.fxpdf.event.ViewerEventHandler;
+import eu.patrickgeiger.fxpdf.viewer.AppearanceType;
+import eu.patrickgeiger.fxpdf.viewer.MinimalViewer;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -10,11 +15,6 @@ import lombok.NonNull;
 import lombok.Setter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import viewer.AppearanceType;
-import viewer.MinimalViewer;
-import viewer.event.Parameter;
-import viewer.event.ViewerEvent;
-import viewer.event.ViewerEventHandler;
 
 /**
  * The ZoomTool helps to control the zoom of viewer

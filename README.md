@@ -1,8 +1,6 @@
-# fxPDF
+# eu.patrickgeiger.fxpdf.fxPDF
 
 This is a PDF viewer library for JavaFX.
-
-__Note that you can't include the current version of this library in your project!__
 
 ## Documentation
 

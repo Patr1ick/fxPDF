@@ -1,5 +1,10 @@
-package viewer;
+package eu.patrickgeiger.fxpdf.viewer;
 
+import eu.patrickgeiger.fxpdf.event.Parameter;
+import eu.patrickgeiger.fxpdf.event.ViewerActionEvent;
+import eu.patrickgeiger.fxpdf.event.ViewerEvent;
+import eu.patrickgeiger.fxpdf.event.ViewerEventHandler;
+import eu.patrickgeiger.fxpdf.util.PDF;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.CacheHint;
@@ -14,11 +19,6 @@ import lombok.NonNull;
 import lombok.Setter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import util.PDF;
-import viewer.event.Parameter;
-import viewer.event.ViewerActionEvent;
-import viewer.event.ViewerEvent;
-import viewer.event.ViewerEventHandler;
 
 import java.io.File;
 
@@ -52,7 +52,7 @@ public class MinimalViewer extends Pane {
 
     // Appearance
     @Getter
-    private AppearanceType appearanceType;
+    private AppearanceType appearanceType = AppearanceType.DARK;
     @Getter
     @Setter
     private String custom_path_css;
@@ -171,7 +171,6 @@ public class MinimalViewer extends Pane {
     private void initialize() {
         // ImageView
         this.imageView = new ImageView();
-
         // StackPane to center the Image
         this.stackPane = new StackPane();
         this.stackPane.getStyleClass().add("stackpane");
@@ -202,7 +201,6 @@ public class MinimalViewer extends Pane {
         this.scrollPane.setPannable(true);
         this.scrollPane.setContent(this.stackPane);
 
-        this.appearanceType = AppearanceType.DARK;
         setAppearanceType(this.appearanceType);
         this.getChildren().add(this.scrollPane);
 
@@ -317,7 +315,6 @@ public class MinimalViewer extends Pane {
             dragEvent.setDropCompleted(success);
             dragEvent.consume();
         });
-
 
         this.fireEvent(new ViewerActionEvent(Parameter.RENDER));
     }

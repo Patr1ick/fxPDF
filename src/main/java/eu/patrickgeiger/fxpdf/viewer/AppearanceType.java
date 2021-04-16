@@ -1,4 +1,4 @@
-package viewer;
+package eu.patrickgeiger.fxpdf.viewer;
 
 /**
  * @author Patr1ick

@@ -11,7 +11,7 @@
         </Console>
     </Appenders>
     <Loggers>
-        <Logger name="fxPDF" level="info" additivity="false">
+        <Logger name="eu.patrickgeiger.fxpdf.fxPDF" level="info" additivity="false">
             <AppenderRef ref="Console"/>
         </Logger>
         <Root level="info">

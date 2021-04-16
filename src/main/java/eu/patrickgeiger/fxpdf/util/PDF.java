@@ -1,4 +1,4 @@
-package util;
+package eu.patrickgeiger.fxpdf.util;
 
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.control.Alert;
@@ -29,6 +29,9 @@ public class PDF {
     @Getter
     private String pdfText;
 
+    /**
+     * @param pdf The file to the pdf
+     */
     public PDF(File pdf) {
         if (pdf != null) {
             loadPDF(pdf);
@@ -38,6 +41,11 @@ public class PDF {
         }
     }
 
+    /**
+     * Load a new PDF
+     *
+     * @param pdf The file to the pdf
+     */
     public void loadPDF(File pdf) {
         f = pdf;
         try {
@@ -54,6 +62,12 @@ public class PDF {
         }
     }
 
+    /**
+     * Convert a given BufferedImage to the JavaFX Image
+     *
+     * @param img A BufferedImage
+     * @return A JavaFX Image
+     */
     public Image convertToFXImage(BufferedImage img) {
         return SwingFXUtils.toFXImage(img, null);
     }
@@ -78,10 +92,16 @@ public class PDF {
         }
     }
 
+    /**
+     * @return
+     */
     public String getAuthor() {
         return this.pdDocumentInformation.getAuthor();
     }
 
+    /**
+     * @return Return the title of the pdf
+     */
     public String getTitle() {
         return this.pdDocumentInformation.getTitle();
     }
@@ -90,18 +110,30 @@ public class PDF {
         return this.pdDocumentInformation.getKeywords();
     }
 
+    /**
+     * @return Return the absolute path of the pdf
+     */
     public String getAbsolutePath() {
         return f.getAbsolutePath();
     }
 
+    /**
+     * @return Return the version of the pdf
+     */
     public float getVersion() {
         return document.getVersion();
     }
 
+    /**
+     * @return Return the number of pages of the pdf
+     */
     public int getNumberOfPages() {
         return document.getNumberOfPages();
     }
 
+    /**
+     * Close the Document
+     */
     public void closeDocument() {
         try {
             this.document.close();

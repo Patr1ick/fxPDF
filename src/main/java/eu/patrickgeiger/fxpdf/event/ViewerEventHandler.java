@@ -1,4 +1,4 @@
-package viewer.event;
+package eu.patrickgeiger.fxpdf.event;
 
 import javafx.event.EventHandler;
 import lombok.NonNull;

@@ -1,4 +1,4 @@
-fxPDF @ Copyright Patrick Geiger
+eu.patrickgeiger.fxpdf.fxPDF @ Copyright Patrick Geiger
 
 EUROPEAN UNION PUBLIC LICENCE v. 1.2
 

@@ -1,5 +1,12 @@
-package viewer;
+package eu.patrickgeiger.fxpdf.viewer;
 
+import eu.patrickgeiger.fxpdf.event.Parameter;
+import eu.patrickgeiger.fxpdf.event.ViewerEvent;
+import eu.patrickgeiger.fxpdf.event.ViewerEventHandler;
+import eu.patrickgeiger.fxpdf.nodes.PDFContent;
+import eu.patrickgeiger.fxpdf.nodes.PageChooser;
+import eu.patrickgeiger.fxpdf.nodes.ZoomTool;
+import eu.patrickgeiger.fxpdf.util.PDF;
 import javafx.application.Platform;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
@@ -12,13 +19,6 @@ import lombok.NonNull;
 import lombok.Setter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import util.PDF;
-import viewer.event.Parameter;
-import viewer.event.ViewerEvent;
-import viewer.event.ViewerEventHandler;
-import viewer.nodes.PDFContent;
-import viewer.nodes.PageChooser;
-import viewer.nodes.ZoomTool;
 
 import java.io.IOException;
 
