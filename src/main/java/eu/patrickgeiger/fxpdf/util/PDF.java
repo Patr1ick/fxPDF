@@ -1,9 +1,7 @@
 package eu.patrickgeiger.fxpdf.util;
 
-import javafx.embed.swing.SwingFXUtils;
-import javafx.scene.control.Alert;
-import javafx.scene.image.Image;
 import lombok.Getter;
+import lombok.NonNull;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -14,6 +12,11 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * The PDF class
+ *
+ * @author Patr1ick
+ */
 public class PDF {
 
     // Logger
@@ -24,7 +27,7 @@ public class PDF {
     private PDFRenderer renderer;
     private PDDocumentInformation pdDocumentInformation;
 
-    private File f;
+    private File file;
 
     @Getter
     private String pdfText;
@@ -32,13 +35,8 @@ public class PDF {
     /**
      * @param pdf The file to the pdf
      */
-    public PDF(File pdf) {
-        if (pdf != null) {
-            loadPDF(pdf);
-        } else {
-            LOGGER.error("The parameter pdf is null.");
-            throw new NullPointerException("The parameter pdf is null");
-        }
+    public PDF(@NonNull File pdf) throws IOException {
+        loadPDF(pdf);
     }
 
     /**
@@ -46,45 +44,25 @@ public class PDF {
      *
      * @param pdf The file to the pdf
      */
-    public void loadPDF(File pdf) {
-        f = pdf;
-        try {
-            this.document = PDDocument.load(pdf);
-            this.renderer = new PDFRenderer(this.document);
-            this.pdDocumentInformation = document.getDocumentInformation();
-            LOGGER.info("Successfully loaded: " + pdf.getAbsolutePath());
-        } catch (Exception e) {
-            LOGGER.error(e.getMessage());
-            Alert a = new Alert(Alert.AlertType.ERROR);
-            a.setHeaderText(e.getMessage());
-            a.setTitle("Error in " + this.getClass().getName());
-            a.showAndWait();
-        }
+    public void loadPDF(@NonNull File pdf) throws IOException {
+        file = pdf;
+        this.document = PDDocument.load(pdf);
+        this.renderer = new PDFRenderer(this.document);
+        this.pdDocumentInformation = document.getDocumentInformation();
+        LOGGER.info("Successfully loaded: {}", pdf.getAbsolutePath());
     }
 
     /**
-     * Convert a given BufferedImage to the JavaFX Image
+     * Generates a BufferedImage with the specified page number and scaling factor.
+     * If the page number is outside that of the PDF then a null object is returned.
      *
-     * @param img A BufferedImage
-     * @return A JavaFX Image
+     * @param pageNumber The number of the page to be generated
+     * @return A BufferedImage object of the given page
      */
-    public Image convertToFXImage(BufferedImage img) {
-        return SwingFXUtils.toFXImage(img, null);
-    }
-
-    public Image getFxImage(int pageNumber, float scaleFactor) {
-        BufferedImage img = getSwingImage(pageNumber, scaleFactor);
-        return convertToFXImage(img);
-    }
-
-    public BufferedImage getSwingImage(int pageNumber, float scaleFactor) {
+    public BufferedImage getSwingImage(int pageNumber) {
         try {
             if (pageNumber <= getNumberOfPages()) {
-                if (scaleFactor >= 0.1) {
-                    return renderer.renderImage(pageNumber, scaleFactor);
-                } else {
-                    return renderer.renderImage(pageNumber);
-                }
+                return renderer.renderImageWithDPI(pageNumber, 300);
             } else return null;
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
@@ -93,39 +71,42 @@ public class PDF {
     }
 
     /**
-     * @return
+     * @return A string with the author of the pdf
      */
     public String getAuthor() {
         return this.pdDocumentInformation.getAuthor();
     }
 
     /**
-     * @return Return the title of the pdf
+     * @return The title of the pdf
      */
     public String getTitle() {
         return this.pdDocumentInformation.getTitle();
     }
 
+    /**
+     * @return The keywords of the pdf
+     */
     public String getKeywords() {
         return this.pdDocumentInformation.getKeywords();
     }
 
     /**
-     * @return Return the absolute path of the pdf
+     * @return The absolute path of the pdf
      */
     public String getAbsolutePath() {
-        return f.getAbsolutePath();
+        return file.getAbsolutePath();
     }
 
     /**
-     * @return Return the version of the pdf
+     * @return The version of the pdf
      */
     public float getVersion() {
         return document.getVersion();
     }
 
     /**
-     * @return Return the number of pages of the pdf
+     * @return The number of pages of the pdf
      */
     public int getNumberOfPages() {
         return document.getNumberOfPages();
@@ -141,5 +122,4 @@ public class PDF {
             LOGGER.error(e.getMessage());
         }
     }
-
 }

@@ -28,12 +28,12 @@
     -fx-background-color: #161b22;
 }
 
-.tree-cell:hover {
+/*.tree-cell:hover {
     -fx-background-color: #30363d;
-}
+}*/
 
-.tree-cell:hover .hyperlink {
-    -fx-font-weight: bold;
+.tree-cell .tree-disclosure-node .arrow {
+    -fx-background-color: #c9d1d9;
 }
 
 /* Scrollbar */

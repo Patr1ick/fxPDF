@@ -3,8 +3,8 @@ package eu.patrickgeiger.fxpdf.nodes;
 import eu.patrickgeiger.fxpdf.event.Parameter;
 import eu.patrickgeiger.fxpdf.event.ViewerEvent;
 import eu.patrickgeiger.fxpdf.event.ViewerEventHandler;
-import eu.patrickgeiger.fxpdf.viewer.AppearanceType;
-import eu.patrickgeiger.fxpdf.viewer.MinimalViewer;
+import eu.patrickgeiger.fxpdf.nodes.viewer.AppearanceType;
+import eu.patrickgeiger.fxpdf.nodes.viewer.MinimalViewer;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
@@ -36,7 +36,7 @@ public class PDFContent extends Pane {
     private final MinimalViewer minimalViewer;
 
     // Tree
-    private TreeView treeView;
+    private TreeView<Hyperlink> treeView;
     private ArrayList<TreeItem<Hyperlink>> contents;
 
     // Appearance
@@ -44,9 +44,9 @@ public class PDFContent extends Pane {
     private AppearanceType appearanceType;
     @Getter
     @Setter
-    private String custom_path_css;
-    private final String PATH_DARK_CSS = "css/nodes/pdfcontent/pdfcontent-night.css";
-    private final String PATH_LIGHT_CSS = "css/nodes/pdfcontent/pdfcontent.css";
+    private String customPathCSS;
+    private static final String PATH_DARK_CSS = "css/nodes/pdfcontent/pdfcontent-night.css";
+    private static final String PATH_LIGHT_CSS = "css/nodes/pdfcontent/pdfcontent.css";
 
     /**
      * The PDFContent constructor
@@ -66,7 +66,7 @@ public class PDFContent extends Pane {
      */
     private void initialize() throws IOException {
         // The TreeView
-        this.treeView = new TreeView();
+        this.treeView = new TreeView<>();
         this.treeView.setEditable(false);
         this.treeView.setShowRoot(false);
         // EventHandler
@@ -84,18 +84,16 @@ public class PDFContent extends Pane {
                             LOGGER.error(e.getMessage());
                         }
                         break;
+                    default:
+                        break;
                 }
             }
         });
 
         // This
         this.getStyleClass().add("pdfcontent");
-        this.widthProperty().addListener((observableValue, oldNumber, newNumber) -> {
-            this.treeView.setPrefWidth(newNumber.doubleValue());
-        });
-        this.heightProperty().addListener((observableValue, oldNumber, newNumber) -> {
-            this.treeView.setPrefHeight(newNumber.doubleValue());
-        });
+        this.widthProperty().addListener((observableValue, oldNumber, newNumber) -> this.treeView.setPrefWidth(newNumber.doubleValue()));
+        this.heightProperty().addListener((observableValue, oldNumber, newNumber) -> this.treeView.setPrefHeight(newNumber.doubleValue()));
         this.getChildren().add(this.treeView);
         // Generate TreeView
         createTreeView();
@@ -131,7 +129,7 @@ public class PDFContent extends Pane {
     private void generateTree(PDOutlineNode outline, TreeItem<Hyperlink> parent) throws IOException {
         PDOutlineItem currentItem = outline.getFirstChild();
         while (currentItem != null) {
-            int pageNumber = 1;
+            var pageNumber = 1;
             PDPageTree pages = this.minimalViewer.getPdf().getDocument().getDocumentCatalog().getPages();
             for (PDPage page : pages) {
                 if (page.equals(currentItem.findDestinationPage(this.minimalViewer.getPdf().getDocument()))) {
@@ -140,13 +138,11 @@ public class PDFContent extends Pane {
                 pageNumber++;
             }
             // Create Hyperlink and TreeItem
-            Hyperlink hyperlink = new Hyperlink();
+            var hyperlink = new Hyperlink();
             hyperlink.setText(currentItem.getTitle());
-            int finalNumber = pageNumber;
-            hyperlink.setOnAction(actionEvent -> {
-                minimalViewer.loadPage(finalNumber - 1);
-            });
-            TreeItem<Hyperlink> treeItem = new TreeItem<Hyperlink>();
+            int finalNumber = pageNumber - 1;
+            hyperlink.setOnAction(actionEvent -> minimalViewer.loadPage(finalNumber));
+            TreeItem<Hyperlink> treeItem = new TreeItem<>();
             treeItem.setExpanded(true);
             treeItem.setValue(hyperlink);
 
@@ -178,14 +174,17 @@ public class PDFContent extends Pane {
                 this.getStylesheets().remove(0, this.getStylesheets().size());
                 this.getStylesheets().add(PATH_DARK_CSS);
                 break;
-            case Custom:
+            case CUSTOM:
                 this.getStylesheets().remove(0, this.getStylesheets().size());
-                if (custom_path_css != null) {
-                    this.getStylesheets().add(custom_path_css);
+                if (customPathCSS != null) {
+                    this.getStylesheets().add(customPathCSS);
                 } else {
                     LOGGER.error("The custom path is null");
                     throw new NullPointerException("The custom path is null");
                 }
+                break;
+            default:
+                LOGGER.warn("Not supported parameter is given.");
                 break;
         }
     }

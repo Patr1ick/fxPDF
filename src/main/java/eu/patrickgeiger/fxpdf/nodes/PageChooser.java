@@ -3,8 +3,8 @@ package eu.patrickgeiger.fxpdf.nodes;
 import eu.patrickgeiger.fxpdf.event.Parameter;
 import eu.patrickgeiger.fxpdf.event.ViewerEvent;
 import eu.patrickgeiger.fxpdf.event.ViewerEventHandler;
-import eu.patrickgeiger.fxpdf.viewer.AppearanceType;
-import eu.patrickgeiger.fxpdf.viewer.MinimalViewer;
+import eu.patrickgeiger.fxpdf.nodes.viewer.AppearanceType;
+import eu.patrickgeiger.fxpdf.nodes.viewer.MinimalViewer;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -23,7 +23,7 @@ import org.apache.logging.log4j.Logger;
 public class PageChooser extends HBox {
 
     //Logger
-    private static final Logger LOGGER = LogManager.getLogger(PDFContent.class);
+    private static final Logger LOGGER = LogManager.getLogger(PageChooser.class);
 
     // Nodes
     private Label label;
@@ -36,9 +36,9 @@ public class PageChooser extends HBox {
     private AppearanceType appearanceType;
     @Getter
     @Setter
-    private String custom_path_css;
-    private final String PATH_DARK_CSS = "css/nodes/pagechooser/pagechooser-night.css";
-    private final String PATH_LIGHT_CSS = "css/nodes/pagechooser/pagechooser.css";
+    private String customPathCSS;
+    private static final String PATH_DARK_CSS = "css/nodes/pagechooser/pagechooser-night.css";
+    private static final String PATH_LIGHT_CSS = "css/nodes/pagechooser/pagechooser.css";
 
     /**
      * The PageChooser constructor
@@ -67,6 +67,9 @@ public class PageChooser extends HBox {
                     case PDF_LOADED:
                         textField.setText(Integer.toString(viewer.getCurrentpage() + 1));
                         label.setText(" / " + viewer.getPdf().getNumberOfPages());
+                        break;
+                    default:
+                        break;
                 }
             }
         });
@@ -78,9 +81,7 @@ public class PageChooser extends HBox {
         this.textField = new TextField();
         this.textField.setText(Integer.toString(this.viewer.getCurrentpage() + 1));
         this.textField.setPrefSize(40d, 5d);
-        this.textField.setOnAction(event -> {
-            viewer.loadPage(Integer.parseInt(this.textField.getText()) - 1);
-        });
+        this.textField.setOnAction(event -> viewer.loadPage(Integer.parseInt(this.textField.getText()) - 1));
 
         this.setAlignment(Pos.CENTER);
         this.getChildren().addAll(this.textField, this.label);
@@ -102,14 +103,17 @@ public class PageChooser extends HBox {
                 this.getStylesheets().remove(0, this.getStylesheets().size());
                 this.getStylesheets().add(PATH_DARK_CSS);
                 break;
-            case Custom:
+            case CUSTOM:
                 this.getStylesheets().remove(0, this.getStylesheets().size());
-                if (custom_path_css != null) {
-                    this.getStylesheets().add(custom_path_css);
+                if (customPathCSS != null) {
+                    this.getStylesheets().add(customPathCSS);
                 } else {
                     LOGGER.error("The custom path is null");
                     throw new NullPointerException("The custom path is null");
                 }
+                break;
+            default:
+                LOGGER.warn("Not supported parameter is given.");
                 break;
         }
     }

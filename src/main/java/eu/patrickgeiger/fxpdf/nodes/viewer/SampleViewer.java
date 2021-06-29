@@ -1,4 +1,4 @@
-package eu.patrickgeiger.fxpdf.viewer;
+package eu.patrickgeiger.fxpdf.nodes.viewer;
 
 import eu.patrickgeiger.fxpdf.event.Parameter;
 import eu.patrickgeiger.fxpdf.event.ViewerEvent;
@@ -54,8 +54,8 @@ public class SampleViewer extends BorderPane {
     @Getter
     @Setter
     private String custom_path_css;
-    private final String PATH_DARK_CSS = "css/viewer/sampleviewer/sampleviewer-night.css";
-    private final String PATH_LIGHT_CSS = "css/viewer/sampleviewer/sampleviewer.css";
+    private static final String PATH_DARK_CSS = "css/viewer/sampleviewer/sampleviewer-night.css";
+    private static final String PATH_LIGHT_CSS = "css/viewer/sampleviewer/sampleviewer.css";
 
     /**
      * The SampleViewer constructor
@@ -97,9 +97,7 @@ public class SampleViewer extends BorderPane {
         this.splitPane = new SplitPane();
         this.splitPane.setOrientation(Orientation.HORIZONTAL);
         this.splitPane.getItems().addAll(this.pdfContent, this.minimalViewer);
-        Platform.runLater(() -> {
-            splitPane.setDividerPositions(0.2f);
-        });
+        Platform.runLater(() -> splitPane.setDividerPositions(0.15f));
 
         this.toolBar = new HBox();
         // Set css, bc empty by default
@@ -111,6 +109,7 @@ public class SampleViewer extends BorderPane {
 
         // Own settings
         this.getStyleClass().add("sample-viewer");
+        this.widthProperty().addListener((observableValue, number, t1) -> this.splitPane.setDividerPositions(0.15f));
         // Set nodes
         this.setTop(this.toolBar);
         this.setCenter(this.splitPane);
@@ -142,7 +141,7 @@ public class SampleViewer extends BorderPane {
                 this.getStylesheets().remove(0, this.getStylesheets().size());
                 this.getStylesheets().add(PATH_DARK_CSS);
                 break;
-            case Custom:
+            case CUSTOM:
                 this.getStylesheets().remove(0, this.getStylesheets().size());
                 this.getStylesheets().remove(0, this.getStylesheets().size());
                 if (custom_path_css != null) {
@@ -152,6 +151,9 @@ public class SampleViewer extends BorderPane {
                     throw new NullPointerException("The custom path is null");
                 }
                 break;
+            default:
+                LOGGER.warn("Not supported parameter is given.");
+                break;
         }
     }
 
@@ -160,7 +162,7 @@ public class SampleViewer extends BorderPane {
      *
      * @param appearanceType The new appearance type
      */
-    public void switchTheme(@NonNull AppearanceType appearanceType) {
+    public void setTheme(@NonNull AppearanceType appearanceType) {
         this.minimalViewer.setAppearanceType(appearanceType);
     }
 

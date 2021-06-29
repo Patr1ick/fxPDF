@@ -1,11 +1,10 @@
 package eu.patrickgeiger.fxpdf.nodes;
 
-
 import eu.patrickgeiger.fxpdf.event.Parameter;
 import eu.patrickgeiger.fxpdf.event.ViewerEvent;
 import eu.patrickgeiger.fxpdf.event.ViewerEventHandler;
-import eu.patrickgeiger.fxpdf.viewer.AppearanceType;
-import eu.patrickgeiger.fxpdf.viewer.MinimalViewer;
+import eu.patrickgeiger.fxpdf.nodes.viewer.AppearanceType;
+import eu.patrickgeiger.fxpdf.nodes.viewer.MinimalViewer;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -16,6 +15,8 @@ import lombok.Setter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.text.DecimalFormat;
+
 /**
  * The ZoomTool helps to control the zoom of viewer
  *
@@ -24,7 +25,7 @@ import org.apache.logging.log4j.Logger;
 public class ZoomTool extends HBox {
 
     // Logger
-    private static final Logger LOGGER = LogManager.getLogger(MinimalViewer.class);
+    private static final Logger LOGGER = LogManager.getLogger(ZoomTool.class);
 
     // Nodes
     private Button btnReset;
@@ -40,9 +41,9 @@ public class ZoomTool extends HBox {
     private AppearanceType appearanceType;
     @Getter
     @Setter
-    private String custom_path_css;
-    private final String PATH_DARK_CSS = "css/nodes/zoomtool/zoomtool-night.css";
-    private final String PATH_LIGHT_CSS = "css/nodes/zoomtool/zoomtool.css";
+    private String customPathCSS;
+    private static final String PATH_DARK_CSS = "css/nodes/zoomtool/zoomtool-night.css";
+    private static final String PATH_LIGHT_CSS = "css/nodes/zoomtool/zoomtool.css";
 
     /**
      * The ZoomTool constructor
@@ -60,32 +61,30 @@ public class ZoomTool extends HBox {
     private void initialize() {
         // Buttons
         this.btnReset = new Button("Reset");
-        this.btnReset.setOnAction(actionEvent -> {
-            this.minimalViewer.setScaleFactor(this.minimalViewer.getMIN_SCALE());
-        });
+        this.btnReset.setOnAction(actionEvent -> this.minimalViewer.setScaleFactor(MinimalViewer.MINSCALE));
 
         this.btnZoomIn = new Button("+");
         this.btnZoomIn.setOnAction(actionEvent -> {
             LOGGER.info(this.minimalViewer.getScaleFactor());
-            if (this.minimalViewer.getScaleFactor() <= this.minimalViewer.getMAX_SCALE()) {
-                this.minimalViewer.setScaleFactor(this.minimalViewer.getScaleFactor() + 1.0f);
+            if (this.minimalViewer.getScaleFactor() <= MinimalViewer.MAXSCALE) {
+                this.minimalViewer.scaleByValue(MinimalViewer.SCALE_STEP);
             }
         });
 
         this.btnZoomOut = new Button("-");
         this.btnZoomOut.setOnAction(actionEvent -> {
-            if (this.minimalViewer.getScaleFactor() > this.minimalViewer.getMIN_SCALE()) {
-                this.minimalViewer.setScaleFactor(this.minimalViewer.getScaleFactor() - 1.0f);
+            if (this.minimalViewer.getScaleFactor() > MinimalViewer.MINSCALE) {
+                this.minimalViewer.scaleByValue(MinimalViewer.SCALE_STEP * -1);
             }
         });
 
         // TextField
         this.textFieldZoom = new TextField();
-        this.textFieldZoom.setText(Float.toString(this.minimalViewer.getScaleFactor() * 10));
+        this.textFieldZoom.setText(new DecimalFormat("0").format(this.minimalViewer.getScaleFactor() * 100));
         this.textFieldZoom.setPrefWidth(50d);
         this.textFieldZoom.setOnAction(actionEvent -> {
-            float value = Float.parseFloat(this.textFieldZoom.getText()) / 10;
-            if (value >= this.minimalViewer.getMIN_SCALE() && value <= this.minimalViewer.getMAX_SCALE()) {
+            double value = Double.parseDouble(this.textFieldZoom.getText()) / 100;
+            if (value >= MinimalViewer.MINSCALE && value <= MinimalViewer.MAXSCALE) {
                 this.minimalViewer.setScaleFactor(value);
             }
         });
@@ -96,10 +95,12 @@ public class ZoomTool extends HBox {
             public void onViewerEvent(Parameter parameter) {
                 switch (parameter) {
                     case RENDER:
-                        textFieldZoom.setText(Float.toString(minimalViewer.getScaleFactor() * 10));
+                        textFieldZoom.setText(new DecimalFormat("0").format(minimalViewer.getScaleFactor() * 100));
                         break;
                     case THEME_CHANGED:
                         setAppearanceType(minimalViewer.getAppearanceType());
+                        break;
+                    default:
                         break;
                 }
             }
@@ -110,6 +111,7 @@ public class ZoomTool extends HBox {
         this.setSpacing(10d);
         this.getChildren().addAll(this.btnZoomOut, this.textFieldZoom, this.btnZoomIn, this.btnReset);
     }
+
 
     /**
      * Set the appearance type of this node
@@ -127,15 +129,18 @@ public class ZoomTool extends HBox {
                 this.getStylesheets().remove(0, this.getStylesheets().size());
                 this.getStylesheets().add(PATH_DARK_CSS);
                 break;
-            case Custom:
+            case CUSTOM:
                 this.getStylesheets().remove(0, this.getStylesheets().size());
                 this.getStylesheets().remove(0, this.getStylesheets().size());
-                if (custom_path_css != null) {
-                    this.getStylesheets().add(custom_path_css);
+                if (customPathCSS != null) {
+                    this.getStylesheets().add(customPathCSS);
                 } else {
                     LOGGER.error("The custom path is null");
                     throw new NullPointerException("The custom path is null");
                 }
+                break;
+            default:
+                LOGGER.warn("Not supported parameter is given.");
                 break;
         }
     }
