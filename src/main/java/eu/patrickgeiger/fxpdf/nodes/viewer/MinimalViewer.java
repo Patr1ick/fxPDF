@@ -48,6 +48,12 @@ public class MinimalViewer extends Pane {
     @Getter
     private int currentpage;
 
+    // Quality
+    public static final int DEFAULT_DPI = 300;
+    @Getter
+    private int dpi = DEFAULT_DPI;
+
+    // Scale
     public static final double DEFAULT_SCALE = 0.5;
     public static final double MAXSCALE = 1.0;
     public static final double MINSCALE = 0.1;
@@ -61,8 +67,8 @@ public class MinimalViewer extends Pane {
     @Getter
     @Setter
     private String customPathCSS;
-    private static final String PATH_DARK_CSS = "css/viewer/minimalviewer/viewer-night.css";
-    private static final String PATH_LIGHT_CSS = "css/viewer/minimalviewer/viewer.css";
+    private static final String PATH_DARK_CSS = "css/nodes/viewer/minimalviewer/viewer-night.css";
+    private static final String PATH_LIGHT_CSS = "css/nodes/viewer/minimalviewer/viewer.css";
 
 
     // KeyBinding
@@ -437,16 +443,16 @@ public class MinimalViewer extends Pane {
      */
     private void eventRender() {
         if (this.currentpage >= 0 && this.currentpage < this.pdf.getNumberOfPages()) {
-            var imgPage = this.pdf.getSwingImage(this.currentpage);
+            var imgPage = this.pdf.renderPage(this.currentpage, this.dpi);
             imgPage = ImageTools.scaleBufferedImage(imgPage, (float) scaleFactor);
             this.imageView.setImage(ImageTools.convertToFXImage(imgPage));
         }
     }
 
     /**
-     * Set the scale factor and trigger the render event
+     * Set the scale factor and trigger the render event to update the MinimalViewer
      *
-     * @param scaleFactor the new scale factor
+     * @param scaleFactor The new scale factor that should be user
      */
     public void setScaleFactor(double scaleFactor) {
         if (scaleFactor >= MINSCALE && scaleFactor <= MAXSCALE) {
@@ -455,6 +461,11 @@ public class MinimalViewer extends Pane {
         }
     }
 
+    /**
+     * Scale the image that is viewed by the given value and trigger the render event to update the MinimalViewer
+     *
+     * @param scaleFactor The scale factor that should be used
+     */
     public void scaleByValue(double scaleFactor) {
         double newValue = this.scaleFactor + scaleFactor;
         newValue = Double.parseDouble(new DecimalFormat("0.00").format(newValue));
@@ -495,5 +506,15 @@ public class MinimalViewer extends Pane {
                 break;
         }
         this.fireEvent(new ViewerActionEvent(Parameter.THEME_CHANGED));
+    }
+
+    /**
+     * Change the DPI setting of the MinimalViewer and trigger the event to render the current page again
+     *
+     * @param dpi The new DPI value
+     */
+    public void setDpi(int dpi) {
+        this.dpi = dpi;
+        this.fireEvent(new ViewerActionEvent(Parameter.RENDER));
     }
 }

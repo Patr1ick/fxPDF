@@ -40,7 +40,7 @@ public class PDF {
     }
 
     /**
-     * Load a new PDF
+     * Load a new File
      *
      * @param pdf The file to the pdf
      */
@@ -55,14 +55,34 @@ public class PDF {
     /**
      * Generates a BufferedImage with the specified page number and scaling factor.
      * If the page number is outside that of the PDF then a null object is returned.
+     * The DPI is 300 by default.
      *
      * @param pageNumber The number of the page to be generated
      * @return A BufferedImage object of the given page
      */
-    public BufferedImage getSwingImage(int pageNumber) {
+    public BufferedImage renderPage(int pageNumber) {
         try {
             if (pageNumber <= getNumberOfPages()) {
                 return renderer.renderImageWithDPI(pageNumber, 300);
+            } else return null;
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage());
+            return null;
+        }
+    }
+
+    /**
+     * Generates a BufferedImage with the specified page number and scaling factor.
+     * If the page number is outside that of the PDF then a null object is returned.
+     *
+     * @param pageNumber The number of the page to be generated
+     * @param dpi        The DPI with which the PDF is generated
+     * @return A BufferedImage object of the given page
+     */
+    public BufferedImage renderPage(int pageNumber, int dpi) {
+        try {
+            if (pageNumber <= getNumberOfPages()) {
+                return renderer.renderImageWithDPI(pageNumber, dpi);
             } else return null;
         } catch (Exception e) {
             LOGGER.error(e.getMessage());

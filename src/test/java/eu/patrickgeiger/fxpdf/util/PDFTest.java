@@ -31,7 +31,7 @@ class PDFTest {
         PDF pdf = new PDF(new File(getClass().getClassLoader().getResource("Lorem_ipsum.pdf").getFile()));
         Assertions.assertNotNull(pdf);
         for (int i = 0; i < pdf.getNumberOfPages(); i++) {
-            BufferedImage img = pdf.getSwingImage(i);
+            BufferedImage img = pdf.renderPage(i);
             Assertions.assertNotNull(img);
         }
         pdf.closeDocument();

@@ -27,11 +27,6 @@ public class ZoomTool extends HBox {
     // Logger
     private static final Logger LOGGER = LogManager.getLogger(ZoomTool.class);
 
-    // Nodes
-    private Button btnReset;
-    private Button btnZoomIn;
-    private Button btnZoomOut;
-
     private TextField textFieldZoom;
 
     private final MinimalViewer minimalViewer;
@@ -60,19 +55,20 @@ public class ZoomTool extends HBox {
      */
     private void initialize() {
         // Buttons
-        this.btnReset = new Button("Reset");
-        this.btnReset.setOnAction(actionEvent -> this.minimalViewer.setScaleFactor(MinimalViewer.MINSCALE));
+        // Nodes
+        var btnReset = new Button("Reset");
+        btnReset.setOnAction(actionEvent -> this.minimalViewer.setScaleFactor(MinimalViewer.MINSCALE));
 
-        this.btnZoomIn = new Button("+");
-        this.btnZoomIn.setOnAction(actionEvent -> {
+        var btnZoomIn = new Button("+");
+        btnZoomIn.setOnAction(actionEvent -> {
             LOGGER.info(this.minimalViewer.getScaleFactor());
             if (this.minimalViewer.getScaleFactor() <= MinimalViewer.MAXSCALE) {
                 this.minimalViewer.scaleByValue(MinimalViewer.SCALE_STEP);
             }
         });
 
-        this.btnZoomOut = new Button("-");
-        this.btnZoomOut.setOnAction(actionEvent -> {
+        var btnZoomOut = new Button("-");
+        btnZoomOut.setOnAction(actionEvent -> {
             if (this.minimalViewer.getScaleFactor() > MinimalViewer.MINSCALE) {
                 this.minimalViewer.scaleByValue(MinimalViewer.SCALE_STEP * -1);
             }
@@ -109,7 +105,7 @@ public class ZoomTool extends HBox {
         // Add nodes
         this.setAlignment(Pos.CENTER);
         this.setSpacing(10d);
-        this.getChildren().addAll(this.btnZoomOut, this.textFieldZoom, this.btnZoomIn, this.btnReset);
+        this.getChildren().addAll(btnZoomOut, this.textFieldZoom, btnZoomIn, btnReset);
     }
 
 

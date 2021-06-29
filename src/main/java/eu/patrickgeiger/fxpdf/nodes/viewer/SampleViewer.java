@@ -34,13 +34,6 @@ public class SampleViewer extends BorderPane {
 
     // Nodes
     private SplitPane splitPane;
-    private HBox toolBar;
-
-    private Separator separator;
-
-    private PageChooser pageChooser;
-    private ZoomTool zoomTool;
-    private PDFContent pdfContent;
 
     // Viewer
     @Getter
@@ -53,9 +46,9 @@ public class SampleViewer extends BorderPane {
     private AppearanceType appearanceType;
     @Getter
     @Setter
-    private String custom_path_css;
-    private static final String PATH_DARK_CSS = "css/viewer/sampleviewer/sampleviewer-night.css";
-    private static final String PATH_LIGHT_CSS = "css/viewer/sampleviewer/sampleviewer.css";
+    private String customPathCSS;
+    private static final String PATH_DARK_CSS = "css/nodes/viewer/sampleviewer/sampleviewer-night.css";
+    private static final String PATH_LIGHT_CSS = "css/nodes/viewer/sampleviewer/sampleviewer.css";
 
     /**
      * The SampleViewer constructor
@@ -83,35 +76,35 @@ public class SampleViewer extends BorderPane {
         });
 
         // Other Nodes
-        this.pageChooser = new PageChooser(this.minimalViewer);
+        var pageChooser = new PageChooser(this.minimalViewer);
 
-        this.zoomTool = new ZoomTool(this.minimalViewer);
+        var zoomTool = new ZoomTool(this.minimalViewer);
 
-        this.pdfContent = new PDFContent(this.minimalViewer);
+        var pdfContent = new PDFContent(this.minimalViewer);
 
-        this.separator = new Separator();
-        this.separator.setOrientation(Orientation.VERTICAL);
-        this.separator.setMaxHeight(30d);
+        var separator = new Separator();
+        separator.setOrientation(Orientation.VERTICAL);
+        separator.setMaxHeight(30d);
 
         // Panes
         this.splitPane = new SplitPane();
         this.splitPane.setOrientation(Orientation.HORIZONTAL);
-        this.splitPane.getItems().addAll(this.pdfContent, this.minimalViewer);
+        this.splitPane.getItems().addAll(pdfContent, this.minimalViewer);
         Platform.runLater(() -> splitPane.setDividerPositions(0.15f));
 
-        this.toolBar = new HBox();
+        var toolBar = new HBox();
         // Set css, bc empty by default
-        this.toolBar.getStyleClass().add("toolbar");
-        this.toolBar.setPrefHeight(75d);
-        this.toolBar.setSpacing(20d);
-        this.toolBar.setAlignment(Pos.CENTER);
-        this.toolBar.getChildren().addAll(this.pageChooser, this.separator, this.zoomTool);
+        toolBar.getStyleClass().add("toolbar");
+        toolBar.setPrefHeight(75d);
+        toolBar.setSpacing(20d);
+        toolBar.setAlignment(Pos.CENTER);
+        toolBar.getChildren().addAll(pageChooser, separator, zoomTool);
 
         // Own settings
         this.getStyleClass().add("sample-viewer");
         this.widthProperty().addListener((observableValue, number, t1) -> this.splitPane.setDividerPositions(0.15f));
         // Set nodes
-        this.setTop(this.toolBar);
+        this.setTop(toolBar);
         this.setCenter(this.splitPane);
     }
 
@@ -144,8 +137,8 @@ public class SampleViewer extends BorderPane {
             case CUSTOM:
                 this.getStylesheets().remove(0, this.getStylesheets().size());
                 this.getStylesheets().remove(0, this.getStylesheets().size());
-                if (custom_path_css != null) {
-                    this.getStylesheets().add(custom_path_css);
+                if (customPathCSS != null) {
+                    this.getStylesheets().add(customPathCSS);
                 } else {
                     LOGGER.error("The custom path is null");
                     throw new NullPointerException("The custom path is null");

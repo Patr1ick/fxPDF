@@ -27,7 +27,7 @@ public class fxPDF extends Application {
             //Create PDF
             var pdf = new PDF(selected);
             var sv = new SampleViewer(pdf);
-            sv.setTheme(AppearanceType.LIGHT);
+            sv.setTheme(AppearanceType.DARK);
             //Scene and add PDFViewer
             var s = new Scene(sv);
             //Stage settings
