@@ -8,7 +8,7 @@ import lombok.NonNull;
  */
 public class ViewerActionEvent extends ViewerEvent {
 
-    public static final EventType<ViewerEvent> VIEWER_ACTION_EVENT_TYPE = new EventType(VIEWER_EVENT_TYPE, "ViewerEvent");
+    public static final EventType<ViewerEvent> VIEWER_ACTION_EVENT_TYPE = new EventType<>(VIEWER_EVENT_TYPE, "ViewerEvent");
 
     private final Parameter parameter;
 

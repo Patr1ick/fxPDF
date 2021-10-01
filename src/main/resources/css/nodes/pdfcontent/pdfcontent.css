@@ -28,10 +28,6 @@
     -fx-background-color: #f6f8fa;
 }
 
-.tree-cell:hover .hyperlink {
-    -fx-font-weight: bold;
-}
-
 /* ScrollBar*/
 .scroll-bar {
     -fx-background-color: transparent;

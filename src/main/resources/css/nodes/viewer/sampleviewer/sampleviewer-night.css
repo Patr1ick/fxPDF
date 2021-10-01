@@ -2,6 +2,10 @@
     -fx-background-color: #0d1117;
 }
 
+.split-pane:horizontal > .split-pane-divider {
+    -fx-background-color: #21262d;
+}
+
 .toolbar {
     -fx-background-color: #0d1117;
 }
@@ -21,3 +25,4 @@
     -fx-border-style: solid;
     -fx-border-width: 0.025em;
 }
+
