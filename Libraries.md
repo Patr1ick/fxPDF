@@ -9,7 +9,7 @@
 
 ## Apache Log4j 2
 
-- __Version__: 2.15.0
+- __Version__: 2.16.0
 - __Owner__: Apache Software Foundation
 - __Website__: [https://logging.apache.org/log4j/2.x/](https://logging.apache.org/log4j/2.x/)
 - __License__: [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0)
